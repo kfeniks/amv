@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\base\InvalidParamException;
+use yii\data\Pagination;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -14,11 +15,12 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\data\ActiveDataProvider;
 use frontend\models\Videos;
-use frontend\models\Videos_category;
+use frontend\models\SearchForm;
 use frontend\models\Messages;
 use frontend\models\Usernews;
 use frontend\models\IpBehavior;
 use frontend\models\Userdownloads;
+use yii\helpers\Html;
 
 
 /**
@@ -76,6 +78,7 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
+
     public function actions()
     {
         return [
@@ -110,6 +113,34 @@ class SiteController extends Controller
             [
                 'model' => $model,
             ]);
+    }
+
+    public function actionSearch(){
+        $q = trim(Yii::$app->request->get('q'));
+        $this->view->title = 'AMV.PP.UA | Поиск: '.$q;
+        if(!$q or $q == Null){
+            $q = new SearchForm();
+            if ($q->load(Yii::$app->request->post()) && $q->validate())
+            {
+                $q = Html::encode($q->q);
+                return $this->redirect(Yii::$app->urlManager->createUrl(['site/search', 'q' => $q]));
+            }
+            return $this->render('search',
+                [
+                    'q' => $q,
+                ]);}
+        $query = Videos::find()->where(['like', 'title', $q])->orWhere(['like', 'comments', $q])->orWhere(['like', 'meta_key', $q]);
+        $pages = new Pagination([
+           'totalCount' => $query->count(),
+            'pageSize' => 20,
+            'forcePageParam' => false,
+            'pageSizeParam' => false
+        ]);
+        $videos = $query->orderBy('id DESC')
+            ->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        return $this->render('search', compact('videos', 'pages', 'q'));
     }
 
     /**
