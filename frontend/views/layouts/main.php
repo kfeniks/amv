@@ -105,47 +105,6 @@ AppAsset::register($this);
 
                                 </ul>
 
-                                <?php
-
-//                                NavBar::begin([
-//                                    'brandLabel' => Yii::$app->name,
-//                                    'brandUrl' => Yii::$app->homeUrl,
-//                                    'options' => [
-//                                        'class' => 'navbar-inverse navbar-fixed-top',
-//                                    ],
-//                                ]);
-//
-//                                $menuItems = [
-//                                    ['label' => 'Главная', 'url' => ['/site/index']],
-//                                    ['label' => 'О нас', 'url' => ['/site/about']],
-//                                    ['label' => 'Напиши нам', 'url' => ['/site/contact']],
-//                                ];
-//                                if (Yii::$app->user->isGuest) {
-//                                    $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
-//                                    $menuItems[] = ['label' => 'Войти', 'url' => ['/site/login']];
-//                                } else {
-//                                    $menuItems[] = '<li>'
-//                                        . Html::beginForm(['/site/logout'], 'post')
-//                                        . Html::submitButton(
-//                                            'Выйти (' . Yii::$app->user->identity->username . ')',
-//                                            ['class' => 'btn btn-link logout']
-//                                        )
-//                                        . Html::endForm()
-//                                        . '</li>';
-//                                }
-//
-//                                echo Nav::widget([
-//                                    'items' => $menuItems,
-//                                    'options' => [
-//                                        'class' => 'nav navbar-nav',
-//                                    ],
-//                                    'itemOptions'=>['class'=>'tm-bg-blue-1 tm-btn-rounded tm-btn-rounded-tall tm-btn-blue'],
-//
-//                                ]);
-//                                NavBar::end();
-                                ?>
-
-
                             </div>
 
                         </nav>

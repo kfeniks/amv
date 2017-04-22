@@ -1,6 +1,8 @@
 <?php
 
 use yii\widgets\ListView;
+use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 
 ?>
 <div class="container-fluid">
@@ -14,6 +16,28 @@ use yii\widgets\ListView;
                 Лучший способ научиться делать отличные аниме клипы - это понять, как сделали шедевр другие.
                 Поэтому предлагаем вам насладиться просмотром лучших amv работ по мнению наших критиков.
             </p>
+                <div class="vcenter">
+                <div class="col-xs-12">
+                    <?php $form = ActiveForm::begin([
+                        'action' => ['index'],
+                        'method' => 'get',
+                    ])?>
+
+                    <table>
+                        <tr>
+                            <td>
+                                <?= $form->field($question, 'q')->textInput(['maxlength' => true]) ?>
+                            </td>
+                            <td>
+                                <input class="searchButton" title="Найти" alt="Найти" type="image" src="/frontend/web/images/button_search.png">
+                            </td>
+                        </tr>
+                    </table>
+
+                    <?php // Html::submitButton('Поиск', ['class' => 'btn btn-primary'])?>
+
+                    <?php ActiveForm::end(); ?>
+                </div></div>
             </div></div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 <?= ListView::widget([

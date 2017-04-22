@@ -14,9 +14,8 @@ use frontend\models\Local;
 use frontend\models\Preview;
 use frontend\models\Direct;
 use frontend\models\Comments;
-use yii\helpers\ArrayHelper;
-
-
+use frontend\models\SearchForm;
+use yii\helpers\Html;
 
 
 /**
@@ -46,6 +45,12 @@ class VideosController extends Controller
 
     public function actionIndex()
     {
+        $question = new SearchForm();
+        if ($question->load(Yii::$app->request->get()) && $question->validate())
+        {
+            $q = Html::encode($question->q);
+            return $this->redirect(Yii::$app->urlManager->createUrl(['site/search', 'q' => $q]));
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => Videos::find()->where(['availability'=>Videos::STATUS_APPROVED])->andWhere(['status'=>Videos::STATUS_ON])->orderBy('created_at DESC'),
             'pagination' => [
@@ -61,7 +66,8 @@ class VideosController extends Controller
             'name' => 'keywords',
             'content' => 'AMV, online, HD, аниме, клипы, музыка, видео, АМВ, кино, Naruto, Evangelion, Bleach, Наруто, Евангелион, видеоклипы, манга, конкурсы, скачать, бесплатно, смотреть, торрент, download, torrent, онлайн'
         ]);
-        return $this->render('index', ['listDataProvider' => $dataProvider]);
+        return $this->render('index', ['listDataProvider' => $dataProvider,
+          'question' => $question]);
     }
 
     public function actionView($id)

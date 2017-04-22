@@ -354,6 +354,7 @@ class Videos extends ActiveRecord
     public function getUserComments()
     {
         $SelectedComments = $this->getComments();
+        if ($SelectedComments == Null){echo 'Комментариев к этому клипу еще нет.';}
 
         foreach ($SelectedComments as $comment){
             $user = User::find()->where(['id' => $comment->author_id])->one();
