@@ -8,6 +8,7 @@ use yii\widgets\DetailView;
 $this->title = Html::encode($video_name->title);
 $model->userdownloads;
 $model->counters;
+$model->user->updateCounters(['karma' => 10]);
 $model->refresh;
 ?>
 
@@ -16,7 +17,7 @@ $model->refresh;
     <div class="view-top">
         <div class="panel2 panel-success">
             <div class="panel-heading">
-                <h1>Локальный файл для клипа <?= Html::encode($this->title) ?></h1>
+                <h1>Превью файл для клипа <?= Html::encode($this->title) ?></h1>
             </div>
             <div class="panel-body">
                 <p>Скачивание начнется само через 5 секунд. Если этого не произошло обновите страницу или обратитесь к администратору сайта.</p>

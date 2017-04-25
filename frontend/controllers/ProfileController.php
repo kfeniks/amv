@@ -188,102 +188,6 @@ class ProfileController extends Controller
         return $this->redirect(['profile/videos']);
     }
 
-    public function actionViewall($id)
-    {
-        $model = Videos::find()->where(['id' => $id])->one();
-        $user = User::find()->where(['id' => $model->author_id])->one();
-        $сategory = Videos_category::find()->where(['videos_id' => $model->id])->one();
-        return $this->render('viewall', [
-            'model' => $model,
-            'user' => $user,
-            'сategory' => $сategory,
-        ]);
-    }
-    protected function findModelall($id)
-    {
-        if (($model = Local::findOne($id)) !== null) {
-            return $model;
-        } else {
-            return $this->redirect(['site/error']);
-        }
-    }
-    public function actionViewlocal($id)
-    {
-        $video_name = Videos::find()->where(['id' => $this->findModellocal($id)->videos_id])->one();
-        return $this->render('viewlocal', [
-            'model' => $this->findModellocal($id),
-            'video_name' => $video_name
-        ]);
-    }
-
-    protected function findModellocal($id)
-    {
-        if (($model = Local::findOne($id)) !== null) {
-            return $model;
-        } else {
-            return $this->redirect(['site/error']);
-        }
-    }
-
-    public function actionDownload_local($id)
-    {
-        return $this->render('download_local', [
-            'model' => $this->findModellocal($id)
-        ]);
-    }
-
-
-    public function actionViewpreview($id)
-    {
-        $video_name = Videos::find()->where(['id' => $this->findModelpreview($id)->videos_id])->one();
-        return $this->render('viewpreview', [
-            'model' => $this->findModelpreview($id),
-            'video_name' => $video_name
-        ]);
-    }
-
-    protected function findModelpreview($id)
-    {
-        if (($model = Preview::findOne($id)) !== null) {
-            return $model;
-        } else {
-            return $this->redirect(['site/error']);
-        }
-    }
-
-    public function actionDownload_preview($id)
-    {
-        return $this->render('download_preview', [
-            'model' => $this->findModelpreview($id)
-        ]);
-    }
-
-
-    public function actionViewdirect($id)
-    {
-        $video_name = Videos::find()->where(['id' => $this->findModeldirect($id)->videos_id])->one();
-        return $this->render('viewdirect', [
-            'model' => $this->findModeldirect($id),
-            'video_name' => $video_name
-        ]);
-    }
-
-    protected function findModeldirect($id)
-    {
-        if (($model = Direct::findOne($id)) !== null) {
-            return $model;
-        } else {
-            return $this->redirect(['site/error']);
-        }
-    }
-
-    public function actionDownload_direct($id)
-    {
-        return $this->render('download_direct', [
-            'model' => $this->findModeldirect($id)
-        ]);
-    }
-
     public function actionVideos()
     {
         $dataProvider = new ActiveDataProvider([
@@ -333,10 +237,10 @@ class ProfileController extends Controller
         $model = $this->findOnevideo($id);
         if($model->author_id !== Yii::$app->user->identity->id){return $this->redirect(['site/index']);}
             Yii::$app->session->set('idVideo', $model->id);
-            $local = Local::find()->where(['videos_id' => $id])->one();
+
             return $this->render('update_videos', [
                 'model' => $model,
-                'local' => $local,
+
             ]);
     }
 
@@ -409,6 +313,7 @@ class ProfileController extends Controller
                 $model->local_url = $user->username . '/' . $model->fileAmv->baseName . '.' . $model->fileAmv->extension;
                 $model->user_id = Yii::$app->user->identity->id;
                 $model->videos_id = $local;
+                $model->check_id = Local::STATUS_PENDING;
                 $model->save();
 
                 $model->fileAmv->saveAs('files/' . $user->username . '/' . $model->fileAmv->baseName . '.' . $model->fileAmv->extension);
@@ -416,6 +321,7 @@ class ProfileController extends Controller
             else {
                 $model->user_id = Yii::$app->user->identity->id;
                 $model->videos_id = $local;
+                $model->check_id = Local::STATUS_PENDING;
                 $model->save();
                 return $this->redirect(['update_videos', 'id' => $local]);
             }
@@ -450,6 +356,7 @@ class ProfileController extends Controller
                     $model->preview_url = $user->username . '/' . $model->fileAmv->baseName . '.' . $model->fileAmv->extension;
                     $model->user_id = Yii::$app->user->identity->id;
                     $model->videos_id = $local;
+                    $model->check_id = Preview::STATUS_PENDING;
                     $model->save();
 
                     $model->fileAmv->saveAs('files/' . $user->username . '/' . $model->fileAmv->baseName . '.' . $model->fileAmv->extension);
@@ -457,6 +364,7 @@ class ProfileController extends Controller
                 } else {
                     $model->user_id = Yii::$app->user->identity->id;
                     $model->videos_id = $local;
+                    $model->check_id = Preview::STATUS_PENDING;
                     $model->save();
                     return $this->redirect(['update_videos', 'id' => $local]);
                 }
@@ -472,10 +380,11 @@ class ProfileController extends Controller
     public function actionUpdate_videos_step4($id)
     {
         $model = $this->findOnedirect($id);
-        $local = Yii::$app->session->get('idVideo');
+
         if($model->user_id !== Yii::$app->user->identity->id){return $this->redirect(['site/index']);}
         $model->updated_at = date("Y-m-d H:i:s");
         $local = Yii::$app->session->get('idVideo');
+        $model->check_id = Direct::STATUS_PENDING;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['update_videos', 'id' => $local]);
         } else {

@@ -68,7 +68,7 @@ class Preview extends ActiveRecord
     public function getCheckVid()
     {
 
-        return $this->hasOne(CheckVid::className(), ['check_id' => 'id']);
+        return $this->hasOne(CheckVid::className(), ['id' => 'check_id']);
     }
     public function getCodecAudio()
     {
@@ -120,7 +120,9 @@ class Preview extends ActiveRecord
 
     public function getRefresh()
     {
-        return header( 'Refresh: 5; url='.Yii::$app->urlManager->createUrl(["videos/download_preview", "id" => $this->id]).'' );
+        if($this->check_id !== self::STATUS_APPROVED){return header( 'Refresh: 0; url='.Yii::$app->urlManager->createUrl(["site/index"]).'' );}
+        else
+        {return header( 'Refresh: 5; url='.Yii::$app->urlManager->createUrl(["videos/download_preview", "id" => $this->id]).'' );}
     }
     public function getCounters()
     {

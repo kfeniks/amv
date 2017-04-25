@@ -40,11 +40,11 @@ class Rankusers extends ActiveRecord
 
     public function getVideos()
     {
-        return $this->hasOne(Videos::className(), ['videos_id' => 'id']);
+        return $this->hasOne(Videos::className(), ['id' => 'videos_id']);
     }
     public function getRankings()
     {
-        return $this->hasMany(Rankings::className(), ['id' => 'rank_id']);
+        return $this->hasMany(Rankings::className(), ['rank_id' => 'id']);
     }
     public function getRankName(){
         $rankName = Rankings::findOne($this->rank_id);

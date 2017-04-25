@@ -5,7 +5,7 @@ use yii\helpers\HtmlPurifier;
 
 <div class="row">
 
-    <div class="col-xs-6 col-md-4"><img src="/frontend/web/images/users/<?= $model->avatar ?>" alt="<?= $model->username ?>" /></div>
+    <div class="col-xs-6 col-md-4"><img src="/frontend/web/images/users/<?= $model->avatar ?>" alt="<?= Html::encode($model->username) ?>" /></div>
     <div class="col-xs-6 col-md-4"><h2><?= Html::encode($model->username) ?></h2>
         <p class="lead"><?= HtmlPurifier::process(Yii::$app->formatter->asDate($model->created_at, 'd MMMM yyyy')) ?></p>
     </div>

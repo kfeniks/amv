@@ -29,6 +29,7 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
+    const STATUS_NOT_ACTIVE = 5;
     const STATUS_ACTIVE = 10;
 
 
@@ -56,17 +57,12 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
-            [['name', 'birthdate_day', 'email'], 'required', 'message'=>'{attribute} не может быть пустым'],
+            [['name', 'email'], 'required', 'message'=>'{attribute} не может быть пустым'],
             [['name', 'website', 'city'], 'string', 'max' => 150],
             [['about'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['birthdate_day'], 'safe'],
             [['sex_id', 'country_id'], 'integer'],
-           // [['birthdate_day'], 'default', 'value' => null],
-           // [['birthdate_day'], 'date'],
-         //   ['birthdate_day', 'date', 'format' => 'php:y.m.d']
         ];
     }
     public function attributeLabels()

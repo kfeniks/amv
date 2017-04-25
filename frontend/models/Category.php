@@ -44,14 +44,14 @@ class Category extends ActiveRecord
             ->viaTable('videos_category', ['category_id'=> 'id']);
     }
 
-    public static function listAll($keyField = 'id', $valueField = 'cat_name', $asArray = true)
-    {
-        $query = static::find()->where(['status' => 1]);
-        if ($asArray) {
-            $query->select([$keyField, $valueField])->asArray();
-        }
-
-        return ArrayHelper::map($query->all(), $keyField, $valueField);
-    }
+//    public static function listAll($keyField = 'id', $valueField = 'cat_name', $asArray = true)
+//    {
+//        $query = static::find()->where(['status' => 1]);
+//        if ($asArray) {
+//            $query->select([$keyField, $valueField])->asArray();
+//        }
+//
+//        return ArrayHelper::map($query->all(), $keyField, $valueField);
+//    }
 
 }

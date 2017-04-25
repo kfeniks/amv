@@ -10,6 +10,7 @@ use yii\widgets\ActiveForm;
 /* @var $model frontend\models\Videos */
 $this->title = $model->title;
 $model->updateCounters(['hits' => 1]);
+$model->user->updateCounters(['karma' => 1]);
 //$model->checkVideoStatus();
 $this->registerMetaTag([
     'name' => 'description',
@@ -32,7 +33,7 @@ $this->registerMetaTag([
         <div class="panel-body">
             <p><?=$model->Rating?></p>
 
-            <img src="/frontend/web/files/<?= Html::encode($model->img) ?>" alt="<?= Html::encode($this->title) ?>" align="left"
+            <img src="/frontend/web/files/<?= Html::encode($model->img) ?>" style="width: 500px; height: 333px;" alt="<?= Html::encode($this->title) ?>" align="left"
                  vspace="5" hspace="5" />
             <p><b>Аниме:</b> <?=Html::encode($model->anime)?></p>
             <p><b>Музыка:</b> <?=Html::encode($model->song)?></p>
@@ -63,9 +64,9 @@ $this->registerMetaTag([
                 ?>
             </p>
             <div class="clearfix"></div>
-
+            <!--noindex-->
                 <?php if($model->youtube != Null){?><p><b>Видео на ютубе</b>: <a href="https://youtu.be/<?=Html::encode($model->youtube)?>" target="_blank">смотреть на ютубе</a></p>
-                    <?php } else {echo '';} ?>
+                    <?php } else {echo '';} ?><!--/noindex-->
             <p><b>Описание:</b></p>
             <p><?= HtmlPurifier::process ($model->comments) ?></p>
             <p><b>Дата премьеры:</b> <?=  HtmlPurifier::process(Yii::$app->formatter->asDate($model->premiered, 'd MMMM yyyy')) ?></p>

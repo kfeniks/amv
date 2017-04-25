@@ -38,9 +38,10 @@ class Direct extends ActiveRecord
             ['check_id', 'default', 'value' => self::STATUS_PENDING],
             ['check_availab', 'default', 'value' => self::STATUS_ON],
             ['check_availab', 'in', 'range' => [self::STATUS_ON, self::STATUS_OFF]],
-            [['direct_url', 'format_id', 'codec_audio_id', 'codec_vid_id', 'duration', 'check_availab', 'check_id'], 'required', 'message'=>'{attribute} не может быть пустым'],
+            [['direct_url', 'format_id', 'codec_audio_id', 'codec_vid_id', 'duration', 'check_availab', 'check_id', 'filesize'], 'required', 'message'=>'{attribute} не может быть пустым'],
             [['duration'], 'safe'],
             [['check_availab', 'videos_id', 'format_id', 'codec_audio_id', 'codec_vid_id'], 'integer'],
+            ['filesize', 'number'],
             [['direct_url'], 'string', 'min' => 5, 'max' => 50],
             ['direct_url', 'url', 'defaultScheme' => 'http'],
         ];
@@ -60,8 +61,14 @@ class Direct extends ActiveRecord
             'codec_audio_id' => 'Аудио кодек',
             'codec_vid_id' => 'Видео кодек',
             'duration' => 'Продолжительность',
-            'videos_id' => 'Номер видео'
+            'videos_id' => 'Номер видео',
+            'filesize' => 'Размер файла'
         ];
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     public function getFormat()
@@ -73,7 +80,7 @@ class Direct extends ActiveRecord
     public function getCheckVid()
     {
 
-        return $this->hasOne(CheckVid::className(), ['check_id' => 'id']);
+        return $this->hasOne(CheckVid::className(), ['id' => 'check_id']);
     }
 
     public function getCodecAudio()
@@ -96,7 +103,9 @@ class Direct extends ActiveRecord
 
     public function getCounters()
     {
-        return $this->updateCounters(['load_count' => 1]);
+        if($this->check_id !== self::STATUS_APPROVED){return header( 'Refresh: 0; url='.Yii::$app->urlManager->createUrl(["site/index"]).'' );}
+        else
+        {return $this->updateCounters(['load_count' => 1]);}
     }
 
     public function formatName()

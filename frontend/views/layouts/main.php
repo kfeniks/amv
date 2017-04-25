@@ -8,7 +8,8 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use yii\bootstrap\Nav;
-
+$this->registerJsFile('/frontend/web/js/jquery-1.11.3.min.js',  ['position' => yii\web\View::POS_HEAD]);
+$this->registerJsFile('/frontend/web/js/jquery.singlePageNav.min.js',  ['position' => yii\web\View::POS_HEAD]);
 
 AppAsset::register($this);
 ?>
@@ -26,8 +27,7 @@ AppAsset::register($this);
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="/frontend/web/js/jquery-1.11.3.min.js"></script>             <!-- jQuery (https://jquery.com/download/) -->
-    <script src="/frontend/web/js/jquery.singlePageNav.min.js"></script>      <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
+    <!-- jQuery (https://jquery.com/download/) -->
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -68,6 +68,9 @@ AppAsset::register($this);
                                     </li>
                                         <li class="nav-item ">
                                             <a class="tm-bg-blue-1 tm-btn-rounded tm-btn-rounded-tall tm-btn-blue external" href="<?=Yii::$app->urlManager->createUrl(["news/index"])?>">Новости</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="tm-bg-blue-1 tm-btn-rounded tm-btn-rounded-tall tm-btn-blue external" href="<?=Yii::$app->urlManager->createUrl(["videos/index"])?>">Клипы</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="tm-bg-blue-1 tm-btn-rounded tm-btn-rounded-tall tm-btn-blue external" href="<?=Yii::$app->urlManager->createUrl(["site/about"])?>">О нас</a>
@@ -197,6 +200,35 @@ AppAsset::register($this);
 </script>
 
 <?php $this->endBody() ?>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter44410777 = new Ya.Metrika({
+                    id:44410777,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/44410777" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </body>
 </html>
 <?php $this->endPage() ?>

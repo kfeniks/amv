@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\User;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\data\Pagination;
@@ -160,8 +161,39 @@ class SiteController extends Controller
         }
     }
 
+    public function actionActivation($activation_code, $user_email)
+    {
+        if($activation_code !== null && $user_email !== null){
+            $activation = User::find()->where(['email'=>$user_email])->one();
+            if($activation !== null && $activation_code == $activation->check_request){
+
+                if($activation->status == User::STATUS_NOT_ACTIVE){
+                    $activation->status = User::STATUS_ACTIVE;
+                    $activation->save();
+                    $messageTitle = 'Активация аккаунта';
+                    $messageText = 'Аккаунт активирован успешно!';
+                    return $this->render('activation', [
+                        'messageTitle' => $messageTitle,
+                        'messageText' => $messageText,
+                    ]);
+                }else{
+                    $messageTitle = 'Активация аккаунта';
+                        $messageText = 'Аккаунт уже активирован!';
+                    return $this->render('activation', [
+                        'messageTitle' => $messageTitle,
+                        'messageText' => $messageText,
+                    ]);
+                }
+
+            }
+            else {return $this->redirect(['site/error']);}
+
+        }
+        else {return $this->redirect(['site/error']);}
+    }
+
     /**
-     * Logs out the current user.
+     * Logs out the current user.   activation.html?activation_code=pem804n1fltmsbm7&user_email=test@gmail.com
      *
      * @return mixed
      */
@@ -214,7 +246,7 @@ class SiteController extends Controller
                 'pageSize' => 5,
             ],
         ]);
-        $messages_user = Messages::find()->where(['user_id_to' => Yii::$app->user->identity->getId()])->one();
+        $messages_user = Messages::find()->where(['user_id_to' => Yii::$app->user->identity->getId()])->andwhere(['status' => Messages::STATUS_PENDING])->one();
         $video_user = Videos::find()->where(['author_id' => Yii::$app->user->identity->getId(), 'availability' => 1])->orderBy('id DESC')->limit(5)->all();
         $usernews = Usernews::find()->where(['hide'=>Usernews::STATUS_APPROVED])->orderBy('date_create DESC')->limit(5)->all();
         $downloads = Userdownloads::find()->where(['user_id' => Yii::$app->user->identity->id])->andwhere(['status' => Userdownloads::STATUS_NOOPINION])->all();
@@ -233,6 +265,12 @@ class SiteController extends Controller
         return $this->render('homefaqs');
     }
 
+    public function actionWaitactivation()
+    {
+        return $this->render('waitactivation');
+    }
+
+
 
     /**
      * Signs user up.
@@ -244,9 +282,9 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
+               $email = $model->email;
+               $model->sendEmail($email);
+                return $this->redirect(['waitactivation']);
             }
         }
 

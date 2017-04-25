@@ -96,7 +96,6 @@ class VideosController extends Controller
         }else{
         return $this->render('view', [
             'model' => $model,
-            'com' => $com,
             'listDataProvider' => $dataProvider,
         ]);}
 
@@ -123,16 +122,14 @@ class VideosController extends Controller
 
     public function actionViewlocal($id)
     {
-        $video_name = Videos::find()->where(['id' => $this->findModellocal($id)->videos_id])->one();
         return $this->render('viewlocal', [
-            'model' => $this->findModellocal($id),
-            'video_name' => $video_name
+            'model' => $this->findModellocal($id)
         ]);
     }
 
     protected function findModellocal($id)
     {
-        if (($model = Local::findOne($id)) !== null) {
+        if (($model = Local::findOne($id)) !== null ) {
             return $model;
         } else {
             return $this->redirect(['site/error']);

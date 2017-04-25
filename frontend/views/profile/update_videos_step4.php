@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\User */
 
-$this->title = 'Редактирование основного файла. Шаг 4';
+$this->title = 'Редактирование ссылки на файл. Шаг 4';
 
 ?>
 <div class="container white">

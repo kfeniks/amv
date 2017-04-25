@@ -24,12 +24,6 @@ class Videos extends ActiveRecord
     }
       public $fileImage;
 
-    /**
-     * Список тэгов, закреплённых за постом.
-     * @var array
-     *  protected $categoryName = [];
-     */
-
     public function rules()
     {
         return [
@@ -218,10 +212,22 @@ class Videos extends ActiveRecord
     }
 
     public function getLinkLocal(){
-        $localvideos = Local::find()->where(['videos_id' => $this->id])->one();;
+        $localvideos = Local::find()->where(['videos_id' => $this->id])->one();
+
         $error = 'Файл не найден.';
         if (($localvideos) !== null) {
-          $local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal", "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->FileSize. 'мб.';
+            $user = Yii::$app->user->identity->id;
+            $user_file = $localvideos->user_id;
+
+            if($localvideos->check_id !== 1){$local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal",
+                    "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->FileSize. 'мб. ';}
+            else{
+                if($user == $user_file){$status = $localvideos->checkVid->check_name;
+                    $local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal",
+                            "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->FileSize. 'мб. '.$status;
+                }
+                else{$local = 'Файл не найден.';}
+                }
             return $local;
         } else {
             return $error;
@@ -229,10 +235,22 @@ class Videos extends ActiveRecord
     }
 
     public function getLinkPreview(){
-        $localvideos = Preview::find()->where(['videos_id' => $this->id])->one();;
+        $localvideos = Preview::find()->where(['videos_id' => $this->id])->one();
         $error = 'Файл не найден.';
         if (($localvideos) !== null) {
-            $local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview", "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->FileSize. 'мб.';
+            $user = Yii::$app->user->identity->id;
+            $user_file = $localvideos->user_id;
+
+            if($localvideos->check_id !== 1){$local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview",
+                    "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->FileSize. 'мб. ';}
+            else{
+                if($user == $user_file){$status = $localvideos->checkVid->check_name;
+                    $local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview",
+                            "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->FileSize. 'мб. '.$status;
+                }
+                else{$local = 'Файл не найден.';}
+            }
+
             return $local;
         } else {
             return $error;
@@ -240,10 +258,23 @@ class Videos extends ActiveRecord
     }
 
     public function getLinkDirect(){
-        $localvideos = Direct::find()->where(['videos_id' => $this->id])->one();;
+        $localvideos = Direct::find()->where(['videos_id' => $this->id])->one();
+
+
         $error = 'Файл не найден.';
         if (($localvideos) !== null) {
-            $local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewdirect", "id" => $localvideos->id]). '" role="button">Скачать</a>';
+            $user = Yii::$app->user->identity->id;
+            $user_file = $localvideos->user_id;
+            if($localvideos->check_id !== 1){$local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewdirect",
+                    "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->filesize. 'мб. ';}
+            else{
+                if($user == $user_file){$status = $localvideos->checkVid->check_name;
+                    $local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewdirect",
+                            "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->filesize. 'мб. '.$status;
+                }
+                else{$local = 'Файл не найден.';}
+            }
+
             return $local;
         } else {
             return $error;

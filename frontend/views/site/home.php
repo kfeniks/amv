@@ -25,7 +25,7 @@ $this->title = 'Главная страница AMV.PP.UA';
         <div class="col-lg-4">
             <h2>Поиск по AMV клипам</h2>
             <p>Вы можете воспользоваться нашим расширенным поиском по аниме клипам. Вам будут доступны возможности фильтра по категориям. </p>
-            <p><a class="btn btn-primary" href="#" role="button">Начать поиск &raquo;</a></p>
+            <p><a class="btn btn-primary" href="<?=Yii::$app->urlManager->createUrl(["category/index"]);?>" role="button">Начать поиск &raquo;</a></p>
         </div>
         <div class="col-lg-4">
             <h2>Ваш профиль</h2>
@@ -51,7 +51,7 @@ if($downloads){ ?>
     </div>
 <?php } else echo '';?>
 <?php
-if($messages_user->isPending()){ ?>
+if($messages_user){ ?>
 <div class="container white home">
 
     <h3>У вас есть непрочитанные сообщения</h3>

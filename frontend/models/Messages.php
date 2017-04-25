@@ -52,4 +52,16 @@ class Messages extends ActiveRecord
     public function isPending() {
         return $this->status == self::STATUS_PENDING;
     }
+
+    public function getCheckStatus(){
+        $check = '';
+        if ($this->status == self::STATUS_PENDING)
+        {$check = '<span class="badge badge-success">непрочитанное</span>';}
+        return $check;
+    }
+
+    public function updateStatus(){
+        $id = $this->id;
+        Yii::$app->db->createCommand()->update('users_messages', ['status' => self::STATUS_APPROVED], 'id=:id')->bindParam(':id', $id)->execute();
+    }
 }

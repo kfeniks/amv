@@ -18,13 +18,14 @@ class User extends \yii\db\ActiveRecord
 {
 
     const STATUS_PENDING=0;
+    const STATUS_NOT_ACTIVE = 5;
     const STATUS_APPROVED=10;
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'user';
+        return '{{%user}}';
     }
 
     public function rules()

@@ -10,11 +10,11 @@ use yii\web\AssetBundle;
 class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $baseUrl = '@web/frontend/web/';
     public $css = [
-        'frontend/web/css/font-awesome-4.5.0/css/font-awesome.min.css',
-        'frontend/web/css/bootstrap.min.css',
-        'frontend/web/css/style.css',
+        'css/font-awesome-4.5.0/css/font-awesome.min.css',
+        'css/bootstrap.min.css',
+        'css/style.css',
     ];
     public $js = [
     ];

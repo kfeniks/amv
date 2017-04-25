@@ -7,7 +7,7 @@ use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\User */
 
-$this->title = 'Редактирование основного файла. Шаг 3';
+$this->title = 'Редактирование превью файла. Шаг 3';
 
 ?>
 <div class="container white">

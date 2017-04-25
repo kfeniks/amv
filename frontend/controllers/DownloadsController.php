@@ -69,16 +69,10 @@ class DownloadsController extends Controller
                 return $this->redirect(['downloads/index']);
              }
          }
-         else {
-             return $this->redirect(['site/error']);
-         }
+         else {return $this->redirect(['site/error']);}
 
-            //if(){}
-          //  return $this->redirect(['downloads/index']);
         }
-        else {
-            return $this->redirect(['site/error']);
-        }
+        else {return $this->redirect(['site/error']);}
     }
 
     protected function findModel($id)

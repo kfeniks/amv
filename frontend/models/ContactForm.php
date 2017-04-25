@@ -24,9 +24,7 @@ class ContactForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
-            // email has to be a valid email address
-            ['email', 'email'],
+            [['subject', 'body'], 'required'],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
         ];
@@ -42,7 +40,7 @@ class ContactForm extends Model
             'name' => 'Имя',
             'email' => 'Емеил',
             'subject' => 'Тема вопроса',
-            'body' => 'Ваш вопрос',
+            'body' => 'Вопрос',
         ];
     }
 
@@ -52,8 +50,18 @@ class ContactForm extends Model
      * @param string $email the target email address
      * @return bool whether the email was sent
      */
+
+    public function getUser()
+    {
+        $user = User::find()->where(['id' => Yii::$app->user->identity->id])->one();
+        return $user->name;
+    }
+
     public function sendEmail($email)
     {
+        $user = User::find()->where(['id' => Yii::$app->user->identity->id])->one();
+        $this->email = $user->email;
+        $this->name = $user->username.'('.$user->name.')';
         return Yii::$app->mailer->compose()
             ->setTo($email)
             ->setFrom([$this->email => $this->name])

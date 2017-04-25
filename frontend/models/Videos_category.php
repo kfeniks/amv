@@ -40,7 +40,7 @@ class Videos_category extends ActiveRecord
 
     public function getVideos()
     {
-        return $this->hasOne(Videos::className(), ['videos_id' => 'id']);
+        return $this->hasOne(Videos::className(), ['id' => 'videos_id']);
     }
 
     public function getCategory()
@@ -51,6 +51,12 @@ class Videos_category extends ActiveRecord
     public function getcatName(){
         $catName = Category::findOne($this->category_id);
         return $catName->cat_name;
+    }
+
+    public function getcatCount(){
+
+        $catCount = Videos_category::find()->where(['category_id'=>$this->category_id])->count();
+        return $catCount;
     }
 
 }

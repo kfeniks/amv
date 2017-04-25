@@ -1,14 +1,14 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\News */
-$this->title = Html::encode($video_name->title);
+/* @var $model frontend\models\Local */
+$this->title = Html::encode($model->videos->title);
 if (Yii::$app->user->isGuest){}
 else{$model->userdownloads;}
 $model->counters;
+$model->user->updateCounters(['karma' => 10]);
 $model->refresh;
 ?>
 
