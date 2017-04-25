@@ -141,13 +141,6 @@ body {
 	background-repeat: repeat;
 }
 
-.tm-navbar-container{
-	position: absolute;
-	left: 20%;
-	right: 0;
-	bottom: 0;
-}
-
 a:link {
 	color: #181818;
 	text-decoration: none;
@@ -281,14 +274,14 @@ a:focus,
 	overflow: auto;
 }
 
-.navbar-nav .nav-link {
+.zavbar-nav .nav-link {
 	padding-left: 1.5rem;
 	padding-right: 1.5rem;
 }
 
 @media (max-width: 991px) and (min-width: 767px) {
 	.nav { font-size: 1.6rem; }
-	.navbar-nav .nav-link {
+	.zavbar-nav .nav-link {
 	    padding-left: 1.5rem;
 	    padding-right: 1.5rem;
 	}
@@ -297,7 +290,7 @@ a:focus,
 @media (max-width: 767px) {
 	.nav { font-size: 1.6rem; }
 	
-	.navbar-nav .nav-item+.nav-item { margin-left: 0; }
+	.zavbar-nav .nav-item+.nav-item { margin-left: 0; }
 }
 
 

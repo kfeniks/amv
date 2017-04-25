@@ -60,7 +60,7 @@ AppAsset::register($this);
 
                             <div class="text-xs-center tm-navbar-rounded" id="tmNavbar">
 
-                                <ul class="nav navbar-nav tron">
+                                <ul class="nav zavbar-nav tron">
                                     <?php
                                     if (Yii::$app->user->isGuest) { ?>
                                     <li class="nav-item ">
