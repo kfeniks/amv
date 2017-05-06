@@ -1,10 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\News */
+/* @var $model frontend\models\Direct */
 $this->title = Html::encode($video_name->title);
 $model->userdownloads;
 $model->counters;

@@ -35,11 +35,7 @@ class Direct extends ActiveRecord
     public function rules()
     {
         return [
-            ['check_id', 'default', 'value' => self::STATUS_PENDING],
-            ['check_availab', 'default', 'value' => self::STATUS_ON],
-            ['check_availab', 'in', 'range' => [self::STATUS_ON, self::STATUS_OFF]],
-            [['direct_url', 'format_id', 'codec_audio_id', 'codec_vid_id', 'duration', 'check_availab', 'check_id', 'filesize'], 'required', 'message'=>'{attribute} не может быть пустым'],
-            [['duration'], 'safe'],
+            [['direct_url', 'format_id', 'codec_audio_id', 'codec_vid_id', 'check_availab', 'filesize'], 'required', 'message'=>'{attribute} не может быть пустым'],
             [['check_availab', 'videos_id', 'format_id', 'codec_audio_id', 'codec_vid_id'], 'integer'],
             ['filesize', 'number'],
             [['direct_url'], 'string', 'min' => 5, 'max' => 50],
@@ -60,7 +56,6 @@ class Direct extends ActiveRecord
             'format_id' => 'Формат видео',
             'codec_audio_id' => 'Аудио кодек',
             'codec_vid_id' => 'Видео кодек',
-            'duration' => 'Продолжительность',
             'videos_id' => 'Номер видео',
             'filesize' => 'Размер файла'
         ];
@@ -74,7 +69,7 @@ class Direct extends ActiveRecord
     public function getFormat()
     {
 
-        return $this->hasOne(Format::className(), ['format_id' => 'id']);
+        return $this->hasOne(Format::className(), ['id' => 'format_id']);
     }
 
     public function getCheckVid()
@@ -86,13 +81,13 @@ class Direct extends ActiveRecord
     public function getCodecAudio()
     {
 
-        return $this->hasOne(CodecAudio::className(), ['codec_audio_id' => 'id']);
+        return $this->hasOne(CodecAudio::className(), ['id' => 'codec_audio_id']);
     }
 
     public function getCodecVid()
     {
 
-        return $this->hasOne(CodecVid::className(), ['codec_vid_id' => 'id']);
+        return $this->hasOne(CodecVid::className(), ['id' => 'codec_vid_id']);
     }
 
     public function getVideos()

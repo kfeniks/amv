@@ -35,7 +35,7 @@ use yii\widgets\ListView;
                     'id' => 'news-list',],
                 'itemOptions' => [
                     'tag' => 'div',
-                    'class' => '',
+                    'class' => 'clipstyle',
                 ],
                 'emptyText' => '<b>Список клипов пуст</b>.',
                 'summary' => '<div class="container white">Найдено клипов: {totalCount}.</div><br>'

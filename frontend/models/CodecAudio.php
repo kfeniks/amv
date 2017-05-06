@@ -39,15 +39,15 @@ class CodecAudio extends ActiveRecord
 
     public function getLocal()
     {
-        return $this->hasMany(Local::className(), ['id' => 'codec_audio_id']);
+        return $this->hasMany(Local::className(), ['codec_audio_id' => 'id']);
     }
     public function getPreview()
     {
-        return $this->hasMany(Preview::className(), ['id' => 'codec_audio_id']);
+        return $this->hasMany(Preview::className(), ['codec_audio_id' => 'id']);
     }
     public function getDirect()
     {
-        return $this->hasMany(Direct::className(), ['id' => 'codec_audio_id']);
+        return $this->hasMany(Direct::className(), ['codec_audio_id' => 'id']);
     }
     public static function listAll($keyField = 'id', $valueField = 'name', $asArray = true)
     {

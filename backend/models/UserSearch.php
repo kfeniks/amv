@@ -18,8 +18,8 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'status', 'created_at', 'updated_at', 'admin_role', 'karma'], 'integer'],
-            [['username', 'name', 'profile_type', 'avatar', 'sex', 'birthdate_day', 'country', 'city', 'website', 'about', 'auth_key', 'password_hash', 'password_reset_token', 'email'], 'safe'],
+            [['id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'name', 'profile_type', 'sex_id', 'birthdate_day', 'country_id', 'city', 'website', 'email'], 'safe'],
         ];
     }
 
@@ -72,8 +72,8 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'profile_type', $this->profile_type])
             ->andFilterWhere(['like', 'avatar', $this->avatar])
-            ->andFilterWhere(['like', 'sex', $this->sex])
-            ->andFilterWhere(['like', 'country', $this->country])
+            ->andFilterWhere(['like', 'sex_id', $this->sex_id])
+            ->andFilterWhere(['like', 'country_id', $this->country_id])
             ->andFilterWhere(['like', 'city', $this->city])
             ->andFilterWhere(['like', 'website', $this->website])
             ->andFilterWhere(['like', 'about', $this->about])

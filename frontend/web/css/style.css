@@ -29,6 +29,10 @@ body {
 	vertical-align: middle;
 }
 
+.clipstyle{
+	padding-bottom: 15px;
+}
+
 .backgr {
 	background-image: url("../img/backgr-min.png");
 	background-position: right bottom;

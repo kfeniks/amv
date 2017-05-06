@@ -31,7 +31,7 @@ class Comments extends ActiveRecord
     {
         return [
             [['text'], 'required', 'message'=>'{attribute} не может быть пустым'],
-            [['text'], 'string', 'min' => 5, 'max' => 500],
+            [['text'], 'string', 'min' => 5, 'max' => 1000],
         ];
     }
 

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use kartik\date\DatePicker;
-use frontend\models\Category;
+use \kartik\time\TimePicker;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Videos */
@@ -45,6 +45,16 @@ use frontend\models\Category;
         ]
     ]);
     ?>
+    <?=$form->field($model, 'duration')->widget(TimePicker::classname(), [
+        'pluginOptions' => [
+            'autoclose'=>true,
+            'showSeconds' => true,
+            'showMeridian' => false,
+            'minuteStep' => 1,
+            'secondStep' => 5,
+            'defaultTime' => '0:00:00',
+
+        ]]);?>
     <?= $form->field($model, 'comments')->textarea(['rows' => 6]) ?>
     <?= $form->field($model, 'fileImage')->fileInput(); ?>
     <?= $form->field($model, 'status')->checkbox(['checked' => 1]) ?>

@@ -55,6 +55,7 @@ return [
                 '<action>'=>'site/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 '<controller:(post|comment)>/<id:\d+>' => '<controller>/view',
+                '<controller>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             ],
         ],
 

@@ -51,6 +51,13 @@ class ProfileController extends Controller
         ];
     }
 
+//    public function beforeAction($action) {
+//        if($action->id = 'Update_videos_step2') {
+//            Yii::$app->request->enableCsrfValidation = false;
+//        }
+//        return parent::beforeAction($action);
+//    } для платежных систем
+
     public function actionIndex()
     {
         return $this->render('index', [
@@ -93,7 +100,7 @@ class ProfileController extends Controller
             $model->img = $user->username . '/' . $model->fileImage->baseName . '.' . $model->fileImage->extension;
             $model->author_id = Yii::$app->user->identity->id;
             $category = Yii::$app->request->post('category');
-            $model->save();
+            if(!$model->save()){return $this->redirect(['site/error']);}
             Yii::$app->session->set('idVideo', $model->id);
             $model->saveCategory($category);
             $model->fileImage->saveAs('files/' . $user->username . '/' . $model->fileImage->baseName . '.' . $model->fileImage->extension);
@@ -128,7 +135,8 @@ class ProfileController extends Controller
             $model->local_url = '/'. $user->username . '/' . $model->fileAmv->baseName . '.' . $model->fileAmv->extension;
             $model->user_id = Yii::$app->user->identity->id;
             $model->videos_id = Yii::$app->session->get('idVideo');
-            $model->save();
+            $model->file_size = $model->filesize;
+            if(!$model->save()){return $this->redirect(['site/error']);}
             $model->fileAmv->saveAs('files/' . $user->username . '/' . $model->fileAmv->baseName . '.' . $model->fileAmv->extension);
             return $this->redirect(['upload_preview']);
         } else {
@@ -152,7 +160,8 @@ class ProfileController extends Controller
             $model->preview_url = '/'. $user->username . '/' . $model->fileAmv->baseName . '.' . $model->fileAmv->extension;
             $model->user_id = Yii::$app->user->identity->id;
             $model->videos_id = Yii::$app->session->get('idVideo');
-            $model->save();
+            $model->file_size = $model->filesize;
+            if(!$model->save()){return $this->redirect(['site/error']);}
             $model->fileAmv->saveAs('files/' . $user->username . '/' . $model->fileAmv->baseName . '.' . $model->fileAmv->extension);
 
             return $this->redirect(['upload_direct']);
@@ -171,7 +180,7 @@ class ProfileController extends Controller
 
             $model->user_id = Yii::$app->user->identity->id;
             $model->videos_id = Yii::$app->session->get('idVideo');
-            $model->save();
+            if(!$model->save()){return $this->redirect(['site/error']);}
             return $this->redirect(['profile/videos']);
 
         } else {
@@ -268,8 +277,7 @@ class ProfileController extends Controller
                 $model->folder;
                 $model->img = $user->username . '/' . $model->fileImage->baseName . '.' . $model->fileImage->extension;
                 $category = Yii::$app->request->post('category');
-                $model->save();
-
+                if(!$model->save()){return $this->redirect(['site/error']);}
                 $model->saveCategory($category);
                 $model->fileImage->saveAs('files/' . $user->username . '/' . $model->fileImage->baseName . '.' . $model->fileImage->extension);
                 return $this->redirect(['update_videos', 'id' => $model->id]);
@@ -277,6 +285,7 @@ class ProfileController extends Controller
             else {
                 $category = Yii::$app->request->post('category');
                 if($model->save()){ $model->saveCategory($category);}
+                else{return $this->redirect(['site/error']);}
                 return $this->redirect(['update_videos', 'id' => $model->id]);
             }
 
@@ -314,7 +323,8 @@ class ProfileController extends Controller
                 $model->user_id = Yii::$app->user->identity->id;
                 $model->videos_id = $local;
                 $model->check_id = Local::STATUS_PENDING;
-                $model->save();
+                $model->file_size = $model->filesize;
+                if(!$model->save()){return $this->redirect(['site/error']);}
 
                 $model->fileAmv->saveAs('files/' . $user->username . '/' . $model->fileAmv->baseName . '.' . $model->fileAmv->extension);
                 return $this->redirect(['update_videos', 'id' => $local]);}
@@ -322,7 +332,7 @@ class ProfileController extends Controller
                 $model->user_id = Yii::$app->user->identity->id;
                 $model->videos_id = $local;
                 $model->check_id = Local::STATUS_PENDING;
-                $model->save();
+                if(!$model->save()){return $this->redirect(['site/error']);}
                 return $this->redirect(['update_videos', 'id' => $local]);
             }
 
@@ -357,7 +367,8 @@ class ProfileController extends Controller
                     $model->user_id = Yii::$app->user->identity->id;
                     $model->videos_id = $local;
                     $model->check_id = Preview::STATUS_PENDING;
-                    $model->save();
+                    $model->file_size = $model->filesize;
+                    if(!$model->save()){return $this->redirect(['site/error']);}
 
                     $model->fileAmv->saveAs('files/' . $user->username . '/' . $model->fileAmv->baseName . '.' . $model->fileAmv->extension);
                     return $this->redirect(['update_videos', 'id' => $local]);
@@ -365,7 +376,7 @@ class ProfileController extends Controller
                     $model->user_id = Yii::$app->user->identity->id;
                     $model->videos_id = $local;
                     $model->check_id = Preview::STATUS_PENDING;
-                    $model->save();
+                    if(!$model->save()){return $this->redirect(['site/error']);}
                     return $this->redirect(['update_videos', 'id' => $local]);
                 }
             }

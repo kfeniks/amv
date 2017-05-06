@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use yii\helpers\HtmlPurifier;
 
 /**
  * This is the model class for table "user".
@@ -94,7 +95,15 @@ class User extends \yii\db\ActiveRecord
      */
     public function getLocals()
     {
-        return $this->hasMany(Local::className(), ['user_id' => 'id']);
+        return $this->hasMany(\frontend\models\Local::className(), ['user_id' => 'id']);
+    }
+    public function getPreview()
+    {
+        return $this->hasMany(\frontend\models\Preview::className(), ['user_id' => 'id']);
+    }
+    public function getDirect()
+    {
+        return $this->hasMany(\frontend\models\Direct::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -103,5 +112,38 @@ class User extends \yii\db\ActiveRecord
     public function getVideos()
     {
         return $this->hasMany(Videos::className(), ['author_id' => 'id']);
+    }
+    public function getCountry()
+    {
+
+        return $this->hasOne(\frontend\models\Country::className(), ['id' => 'country_id']);
+    }
+    public function getSex()
+    {
+
+        return $this->hasOne(\frontend\models\Sex::className(), ['id' => 'sex_id']);
+    }
+    public function getStatus()
+    {
+        if($this->status == 0){return $status ='Забанен';}
+        elseif ($this->status == 5){return $status ='Ожидает активации (почта)';}
+        elseif($this->status == 10){return $status ='Активен';}
+    }
+    public function getIpBehavior()
+    {
+        return $this->hasMany(\frontend\models\IpBehavior::className(), ['user_id' => 'id']);
+    }
+
+    public function getIp()
+    {
+        $ips = \frontend\models\IpBehavior::find()->where(['user_id' => $this->id])->limit(10)->orderBy('id DESC')->all();
+        if($ips !== null){
+        foreach ($ips as $ip){
+            $ip1 = $ip->ip;
+            $ip2 = HtmlPurifier::process(Yii::$app->formatter->asDate($ip->date, 'd MMMM yyyy'));
+            $ip3 = '<p>'.$ip1.' '.$ip2.'</p><br>';
+            return $ip3;
+        }
+        }else{return $ip3 = 'Нет записей об IP';}
     }
 }

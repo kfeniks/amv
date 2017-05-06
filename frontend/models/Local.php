@@ -36,11 +36,7 @@ class Local extends ActiveRecord
     public function rules()
     {
         return [
-            ['check_id', 'default', 'value' => self::STATUS_PENDING],
-            ['check_availab', 'default', 'value' => self::STATUS_ON],
-            ['check_availab', 'in', 'range' => [self::STATUS_ON, self::STATUS_OFF]],
-            [['local_url', 'format_id', 'codec_audio_id', 'codec_vid_id', 'duration', 'check_availab', 'check_id'], 'required', 'message'=>'{attribute} не может быть пустым'],
-            [['duration'], 'safe'],
+            [['local_url', 'format_id', 'codec_audio_id', 'codec_vid_id', 'check_availab'], 'required', 'message'=>'{attribute} не может быть пустым'],
             [['check_availab', 'format_id', 'codec_audio_id', 'codec_vid_id'], 'integer'],
             [['fileAmv'], 'file', 'skipOnEmpty' => true, 'extensions' => 'avi, mp4, mov, flv, mpeg, wmv, mkv, vob', 'maxSize'=>1024 * 1024 * 100],
         ];
@@ -57,7 +53,6 @@ class Local extends ActiveRecord
             'format_id' => 'Формат видео',
             'codec_audio_id' => 'Аудио кодек',
             'codec_vid_id' => 'Видео кодек',
-            'duration' => 'Продолжительность',
             'fileAmv' => 'Файл клипа',
             'fileAmvupload' => 'Файл клипа',
             'videos_id' => 'Номер видео'
@@ -128,14 +123,20 @@ class Local extends ActiveRecord
     {
         $dirname = __DIR__.'/../web/files';
         $filename = $dirname.'/'.$this->local_url;
-        $filename_mb = (filesize($filename)/1024)/1024;
-        $filename_mb = str_replace(".", "," , strval(round($filename_mb, 2)));
+        if (file_exists($filename)) {
+            $filename_mb = (filesize($filename)/1024)/1024;
+            $filename_mb = str_replace(".", "," , strval(round($filename_mb, 2)));
+        }
+        else {
+            $filename_mb = 0;
+        }
+
         return $filename_mb;
     }
 
     public function getUser()
     {
-        return User::find()->where(['id' => $this->user_id])->one();
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     public function getRefresh()
@@ -152,13 +153,29 @@ class Local extends ActiveRecord
     {
         return $file = __DIR__.'/../web/files/'.$this->local_url;
     }
-    public function getFileExists()
+    public function getFileCloud()
     {
-        if( ! file_exists( $this->filedir ) ) // проверяем существует ли указанный файл
-        {
-            echo "ОШИБКА: данного файла не существует.";
+        return $file = 'https://rocld.com/'.$this->url;
+    }
+    public function getFileExistsCloud()
+    {
+        $url = $this->filecloud;
+        $headers = get_headers($url, 1);
+        if(in_array('video/x-msvideo', $headers)){return $cloud = 'файл доступен';}
+        else{
+            echo $cloud = 'Упс, этого файла нет на сервере. Обратитесь к администратору.';
             return header( 'Refresh: 5; url='.Yii::$app->urlManager->createUrl(["site/index"]).'' );
-        };
+        }
+    }
+    public function getCloudExists()
+    {
+        $url = $this->filecloud;
+        $headers = get_headers($url, 1);
+        if(in_array('video/x-msvideo', $headers)){return $cloud = 200;}
+        elseif (in_array('video/mp4', $headers)){return $cloud = 200;}
+        else{
+            return $cloud = 404;
+        }
     }
 
     public function getUserDownloads()

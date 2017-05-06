@@ -59,7 +59,7 @@ use yii\helpers\Html;
         'id' => 'news-list',],
     'itemOptions' => [
         'tag' => 'div',
-        'class' => '',
+        'class' => 'clipstyle',
     ],
     'emptyText' => '<b>Список клипов пуст</b>.',
     'summary' => '<div class="container white">Всего клипов: {totalCount}.</div><br>'

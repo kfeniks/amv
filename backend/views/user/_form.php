@@ -20,11 +20,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'avatar')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'sex')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'sex_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'birthdate_day')->textInput() ?>
 
-    <?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'country_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
 

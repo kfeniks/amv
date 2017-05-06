@@ -58,6 +58,7 @@ $this->title = 'Клип '. $model->title;
 
         <div class="clearfix"></div>
         <p>Премьера клипа: <?= HtmlPurifier::process(Yii::$app->formatter->asDate($model->premiered, 'd MMMM yyyy')) ?></p>
+        <p><b>Длительность:</b> <?=  HtmlPurifier::process(Yii::$app->formatter->asTime($model->duration, 'mm:ss')) ?></p>
         <p>Доступность: <?php
            if ($model->availability == 1){ echo 'Отображается';}
            else{echo 'Заблокировано администратором';}

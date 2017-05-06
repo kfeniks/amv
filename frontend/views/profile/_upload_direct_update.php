@@ -5,9 +5,6 @@ use yii\widgets\ActiveForm;
 use frontend\models\Format;
 use frontend\models\CodecAudio;
 use frontend\models\CodecVid;
-use \kartik\time\TimePicker;
-
-
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Videos */
@@ -22,17 +19,6 @@ use \kartik\time\TimePicker;
     <?= $form->field($model, 'format_id')->radioList(Format::listAll(), ['multiple' => false]) ?>
     <?= $form->field($model, 'codec_audio_id')->radioList(CodecAudio::listAll(), ['multiple' => false]) ?>
     <?= $form->field($model, 'codec_vid_id')->radioList(CodecVid::listAll(), ['multiple' => false]) ?>
-    <?=$form->field($model, 'duration')->widget(TimePicker::classname(), [
-        'pluginOptions' => [
-            'autoclose'=>true,
-            'showSeconds' => true,
-            'showMeridian' => false,
-            'minuteStep' => 1,
-            'secondStep' => 5,
-            'defaultTime' => '0:00:00',
-
-        ]]);?>
-
     <?= $form->field($model, 'check_availab')->checkbox(['checked' => 1]) ?>
     <b>Текущая ссылка:</b> <?= $model->direct_url?> <?=$model->filesize?> мб.
     <?= $form->field($model, 'direct_url')->textInput(['maxlength' => true]) ?>

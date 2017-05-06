@@ -8,11 +8,13 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use yii\bootstrap\Nav;
+
 $this->registerJsFile('/frontend/web/js/jquery-1.11.3.min.js',  ['position' => yii\web\View::POS_HEAD]);
 $this->registerJsFile('/frontend/web/js/jquery.singlePageNav.min.js',  ['position' => yii\web\View::POS_HEAD]);
 
 AppAsset::register($this);
 ?>
+<?= Html::csrfMetaTags() ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">

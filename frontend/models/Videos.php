@@ -3,7 +3,6 @@
 namespace frontend\models;
 use Yii;
 use yii\db\ActiveRecord;
-use yii\web\UploadedFile;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
@@ -27,13 +26,11 @@ class Videos extends ActiveRecord
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ON],
-            ['status', 'in', 'range' => [self::STATUS_ON, self::STATUS_OFF]],
-            [['title', 'anime', 'song', 'premiered', 'comments'], 'required', 'message'=>'{attribute} не может быть пустым'],
+            [['title', 'anime', 'song', 'premiered', 'comments', 'duration'], 'required', 'message'=>'{attribute} не может быть пустым'],
             [['title', 'anime', 'song', 'img'], 'string', 'min' => 5, 'max' => 150],
             [['comments'], 'string', 'min' => 5, 'max' => 1000],
             [['youtube'], 'string', 'min' => 4, 'max' => 20],
-            [['premiered'], 'safe'],
+            [['premiered', 'duration'], 'safe'],
             [['author_id', 'status'], 'integer'],
             [['fileImage'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxSize'=>1024 * 1024 * 1],
         ];
@@ -57,6 +54,7 @@ class Videos extends ActiveRecord
             'hide' => 'Публикация',
             'fileImage' => 'Картинка-скриншот',
             'fileImageUpdate' => 'Картинка-скриншот',
+            'duration' => 'Продолжительность',
             'status' => 'Показывать всем?'
         ];
     }
@@ -219,12 +217,12 @@ class Videos extends ActiveRecord
             $user = Yii::$app->user->identity->id;
             $user_file = $localvideos->user_id;
 
-            if($localvideos->check_id !== 1){$local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal",
-                    "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->FileSize. 'мб. ';}
+            if($localvideos->check_id !== 1 && $localvideos->cloudexists !== 404){$local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal",
+                    "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->file_size. 'мб. ';}
             else{
-                if($user == $user_file){$status = $localvideos->checkVid->check_name;
+                if($user == $user_file && $localvideos->cloudexists !== 404){$status = $localvideos->checkVid->check_name;
                     $local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal",
-                            "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->FileSize. 'мб. '.$status;
+                            "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->file_size. 'мб. '.$status;
                 }
                 else{$local = 'Файл не найден.';}
                 }
@@ -241,12 +239,12 @@ class Videos extends ActiveRecord
             $user = Yii::$app->user->identity->id;
             $user_file = $localvideos->user_id;
 
-            if($localvideos->check_id !== 1){$local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview",
-                    "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->FileSize. 'мб. ';}
+            if($localvideos->check_id !== 1 && $localvideos->cloudexists !== 404){$local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview",
+                    "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->file_size. 'мб. ';}
             else{
-                if($user == $user_file){$status = $localvideos->checkVid->check_name;
+                if($user == $user_file && $localvideos->cloudexists !== 404){$status = $localvideos->checkVid->check_name;
                     $local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview",
-                            "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->FileSize. 'мб. '.$status;
+                            "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->file_size. 'мб. '.$status;
                 }
                 else{$local = 'Файл не найден.';}
             }

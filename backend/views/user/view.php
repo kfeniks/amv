@@ -37,19 +37,32 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=>('/frontend/web/images/users/' . $model->avatar),
                 'format' => ['image',['width'=>'100','height'=>'100']],
             ],
-            'sex',
+            [
+                'attribute'=>'sex_id',
+                'format' => 'raw',
+                'value' => function($data){ return $data->sex->name;}
+            ],
             'birthdate_day:datetime',
-            'country',
+            [
+                'attribute'=>'country_id',
+                'format' => 'raw',
+                'value' => function($data){ return $data->country->name;}
+            ],
             'city',
             'website',
             'about',
             'email:email',
-            'status',
+            [
+                'attribute'=>'status',
+                'format' => 'raw',
+                'value' => function($data){ return $data->Status;}
+            ],
             'created_at:datetime',
             'updated_at:datetime',
             'admin_role',
             'karma',
         ],
     ]) ?>
+    <?=$model->ip ?>
 
 </div>

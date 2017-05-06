@@ -25,6 +25,8 @@ class ContactForm extends Model
         return [
             // name, email, subject and body are required
             [['subject', 'body'], 'required'],
+            ['subject', 'string', 'min' => 4, 'max' => 255],
+            ['body', 'string', 'min' => 4, 'max' => 1000],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
         ];
@@ -62,11 +64,20 @@ class ContactForm extends Model
         $user = User::find()->where(['id' => Yii::$app->user->identity->id])->one();
         $this->email = $user->email;
         $this->name = $user->username.'('.$user->name.')';
+        $body = '
+             Письмо на сайте AMV.PP.UA             
+             Здравствуй, админ! Тебе пришло письмо с сайта.
+             Логин: '.$user->username.'
+             Имя: '.$user->name.'
+             Почта: '.$this->email.'
+             Текст: '
+             .$this->body.'                         
+        ';
         return Yii::$app->mailer->compose()
             ->setTo($email)
-            ->setFrom([$this->email => $this->name])
+            ->setFrom([Yii::$app->params['supportEmail'] => $this->name])
             ->setSubject($this->subject)
-            ->setTextBody($this->body)
+            ->setTextBody($body)
             ->send();
     }
 }
