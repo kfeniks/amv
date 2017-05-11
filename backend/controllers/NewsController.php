@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use backend\models\News;
 use backend\models\NewsSearch;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -34,9 +35,6 @@ class NewsController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    'deletepreview' => ['POST'],
-                    'deletedirect' => ['POST'],
-                    'deletevideos' => ['POST'],
                 ],
             ],
         ];
@@ -77,6 +75,30 @@ class NewsController extends Controller
     {
         $model = $this->findModel($id);
 
+        $model->date_update = date("Y-m-d H:i:s");
+        if ($model->load(Yii::$app->request->post())) {
+            $model->fileImage = UploadedFile::getInstance($model, 'fileImage');
+            if($model->fileImage){
+                $current_image = $model->img;
+                $dirname = __DIR__.'/../../frontend/web/images/posts/';
+                $dir = $dirname.$current_image;
+                if(file_exists($dir))
+                {
+                    //удаляем файл
+                    unlink($dir);
+                    $model->img = '';
+                }
+                $model->folder;
+                $model->img = $model->fileImage->baseName . '.' . $model->fileImage->extension;
+                if(!$model->save()){return $this->redirect(['site/error']);}
+                $model->fileImage->saveAs($dirname . '/' . $model->fileImage->baseName . '.' . $model->fileImage->extension);
+                return $this->redirect(['update', 'id' => $model->id]);
+            }
+            else {
+                if(!$model->save()){return $this->redirect(['site/error']);}
+                return $this->redirect(['update', 'id' => $model->id]);
+            }
+        }
         return $this->render('update', [
             'model' => $model,
 
@@ -87,12 +109,33 @@ class NewsController extends Controller
     {
         $model = new News();
 
-        return $this->render('create', [
-            'model' => $model,
+        if ($model->load(Yii::$app->request->post())) {
+            $model->fileImage = UploadedFile::getInstance($model, 'fileImage');
+            if($model->fileImage){
+                $dirname = __DIR__.'/../../frontend/web/images/posts/';
+                $model->folder;
+                $model->img = $model->fileImage->baseName . '.' . $model->fileImage->extension;
+                if(!$model->save()){return $this->redirect(['site/error']);}
+                $model->fileImage->saveAs($dirname . '/' . $model->fileImage->baseName . '.' . $model->fileImage->extension);
+                return $this->redirect(['update', 'id' => $model->id]);
+            }
+        }
+        else{
 
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+
+            ]);
+
+        }
+
     }
 
-
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+       // return $this->redirect(Yii::$app->request->referrer);
+        return $this->redirect(['index']);
+    }
 
 }

@@ -40,7 +40,6 @@ class Usernews extends \yii\db\ActiveRecord
             'is_release' => 'Статус',
             'date_create' => 'Дата',
             'date_update' => 'Обновлено',
-            'intro_text' => 'Превью текст',
             'full_text' => 'Текст',
             'hits' => 'Посещений',
             'hide' => 'Публикация',

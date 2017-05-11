@@ -3,6 +3,10 @@ body {
     height: 100%;
 }
 
+.borderblack{
+    outline: 2px solid #000; /* Чёрная рамка */
+}
+
 .wrap {
     min-height: 100%;
     height: auto;

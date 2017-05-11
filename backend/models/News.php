@@ -24,7 +24,7 @@ class News extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'intro_text', 'full_text', 'img'], 'required'],
+            [['title', 'intro_text', 'full_text'], 'required'],
             [['date'], 'safe'],
             [['is_release', 'hits', 'hide'], 'integer'],
             [['title'], 'string', 'max' => 70],
@@ -71,8 +71,8 @@ class News extends \yii\db\ActiveRecord
     }
 
     public function getNameStatus(){
-        if($this->hide == self::STATUS_ON){return $nameStatus = 'Да';}
-        else{return $nameStatus = 'Нет';}
+        if($this->hide == self::STATUS_ON){return $nameStatus = 'Нет';}
+        else{return $nameStatus = 'Да';}
     }
     public function getNameRelease(){
         if($this->is_release == self::STATUS_ON){return $nameStatus = 'Да';}

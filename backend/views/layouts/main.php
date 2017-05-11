@@ -40,7 +40,11 @@ AppAsset::register($this);
         $menuItems = [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'User', 'url' => ['/user/index/']],
+            ['label' => 'News', 'url' => ['/news/index/']],
+            ['label' => 'UserNews', 'url' => ['/usernews/index/']],
             ['label' => 'Videos', 'url' => ['/videos/index/']],
+            ['label' => 'Вопросы', 'url' => ['/faqs/index/']],
+            ['label' => 'Ip', 'url' => ['/ip/index/']],
         ];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')

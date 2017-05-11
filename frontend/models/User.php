@@ -74,6 +74,11 @@ class User extends \yii\db\ActiveRecord
         return $this->hasMany(Rankusers::className(), ['user_id' => 'id']);
     }
 
+    public function getVidComments()
+    {
+        return $this->hasMany(VidComments::className(), ['author_id' => 'id']);
+    }
+
     public function getKarmaStatus()
     {
         $karma = number_format($this->karma) . ' симпатий ';

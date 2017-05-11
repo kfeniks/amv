@@ -51,4 +51,9 @@ class Comments extends ActiveRecord
             ->viaTable('vid_comments', ['comment_id'=> 'id']);
     }
 
+    public function getVidComments()
+    {
+        return $this->hasMany(VidComments::className(), ['comment_id' => 'id']);
+    }
+
 }

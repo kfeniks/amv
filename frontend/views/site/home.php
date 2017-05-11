@@ -4,8 +4,6 @@
 use yii\helpers\Html;
 use yii\widgets\ListView;
 use yii\helpers\HtmlPurifier;
-use frontend\models\Messages;
-use frontend\models\Usernews;
 
 $this->title = 'Главная страница AMV.PP.UA';
 ?>
@@ -68,7 +66,7 @@ if($messages_user){ ?>
                         <div class="row">
                             <div class="col-md-3"><?= HtmlPurifier::process(Yii::$app->formatter->asDate($news->date_create, 'd MMMM yyyy'))  ?></div>
                             <div class="col-md-6">
-                                <a href="<?=Yii::$app->urlManager->createUrl(["usernews/view", "id" => $news->news_id])?>" role="button"><?= HtmlPurifier::process ($news->title);  ?></a>
+                                <a href="<?=Yii::$app->urlManager->createUrl(["usernews/view", "id" => $news->id])?>" role="button"><?= HtmlPurifier::process ($news->title);  ?></a>
                                 <?php
                                 if($news->isRelease()){ ?>
                                     <span class="badge badge-danger">важно</span>

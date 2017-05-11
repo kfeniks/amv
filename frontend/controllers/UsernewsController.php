@@ -15,22 +15,8 @@ class UsernewsController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Usernews::find()->where(['hide'=>Usernews::STATUS_APPROVED])->orderBy('date_create DESC'),
-            'pagination' => [
-                'pageSize' => 5,
-            ],
-        ]);
-        $this->view->title = 'Новости для клипмейкеров';
-        Yii::$app->view->registerMetaTag([
-            'name' => 'description',
-            'content' => 'Музыкальные аниме клипы.'
-        ]);
-        Yii::$app->view->registerMetaTag([
-            'name' => 'keywords',
-            'content' => 'AMV, online, HD, аниме, клипы, музыка, видео, АМВ, кино, Naruto, Evangelion, Bleach, Наруто, Евангелион, видеоклипы, манга, конкурсы, скачать, бесплатно, смотреть, торрент, download, torrent, онлайн'
-        ]);
-        return $this->render('index', ['listDataProvider' => $dataProvider]);
+
+        return $this->redirect(['site/home']);
     }
 
     public function actionView($id)

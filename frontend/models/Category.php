@@ -43,7 +43,16 @@ class Category extends ActiveRecord
         return $this->hasMany(Videos::className(), ['id' => 'videos_id'])
             ->viaTable('videos_category', ['category_id'=> 'id']);
     }
+    public function getVidcategory()
+    {
+        return $this->hasOne(Videos_category::className(), ['category_id' => 'id']);
+    }
 
+    public function getcatCount(){
+
+        $catCount = Videos_category::find()->where(['category_id'=>$this->id])->count();
+        return $catCount;
+    }
 //    public static function listAll($keyField = 'id', $valueField = 'cat_name', $asArray = true)
 //    {
 //        $query = static::find()->where(['status' => 1]);

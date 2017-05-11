@@ -2,26 +2,31 @@
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 $text = mb_substr($model->videos->comments, 0, 100).'...';
+$name = mb_substr($model->videos->title, 0, 56);
 ?>
-<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-table-col">
 
-    <table class="tm-table-full-width">
-        <thead>
-        <tr class="tm-bg-green-1">
-            <th class="tm-plan-table-header"><?= Html::encode($model->videos->title) ?></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="tm-bg-green-2"><td class="tm-plan-table-cell"><img class="thumbnail" data-src="holder.js/300x200"
-                                                                      alt="<?= Html::encode($model->videos->title) ?>" src="/frontend/web/files/<?= Html::encode($model->videos->img) ?>" style="width: 300px; height: 200px;"></td></tr>
+<h3 class="main-box-title cat-4"><a href="<?=Yii::$app->urlManager->createUrl(["videos/view", "id" => $model->videos->id])?>"
+                                    title="<?= Html::encode($model->videos->title) ?>"><?= Html::encode($name) ?></a></h3>
+<div class="main-box-inside ">
 
-        <tr class="tm-bg-green-1"><td class="tm-plan-table-cell"><?= HtmlPurifier::process($text) ?></td></tr>
-        <tr class="tm-bg-green-3">
-            <td class="tm-plan-table-cell tm-plan-table-cell-pad-small text-xs-center">
-                <a href="<?=Yii::$app->urlManager->createUrl(["videos/view", "id" => $model->videos->id])?>" class="tm-bg-green-1 tm-btn-rounded tm-btn-green">Смотреть</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <article class="vce-post vce-lay-c post-192 post type-post status-publish format-video has-post-thumbnail hentry category-fashion post_format-post-format-video">
 
+        <div class="meta-image">
+            <a href="<?=Yii::$app->urlManager->createUrl(["videos/view", "id" => $model->videos->id])?>" title="Hipster Yoga at the End of the World">
+                <img width="375" height="195" src="/frontend/web/files/<?= Html::encode($model->videos->img) ?>" class="attachment-vce-lay-b size-vce-lay-b wp-post-image" alt="" />							<span class="vce-format-icon">
+                    </span>
+            </a>
+        </div>
+
+        <header class="entry-header">
+            <span class="meta-category"><?= Html::encode($model->videos->user->username) ?></span>
+            <h2 class="entry-title"></h2>
+            <div class="entry-meta"><div class="meta-item date"><span class="updated">
+                                    <?=  HtmlPurifier::process(Yii::$app->formatter->asDate($model->videos->created_at, 'd MMMM yyyy')) ?></span></div></div>	</header>
+
+        <div class="entry-content">
+            <p><?= HtmlPurifier::process($text) ?></p>
+        </div>
+
+    </article>
 </div>

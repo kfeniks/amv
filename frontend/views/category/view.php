@@ -15,7 +15,7 @@ use yii\widgets\ListView;
                     Поэтому предлагаем вам насладиться просмотром лучших amv работ по мнению наших критиков.
                 </p>
             </div></div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="primary" class="vce-main-content">
             <?= ListView::widget([
                 'dataProvider' => $listDataProvider,
                 'itemView' => '_amv',
@@ -31,11 +31,11 @@ use yii\widgets\ListView;
 
                 'options' => [
                     'tag' => 'div',
-                    'class' => 'tm-plan-boxes-container',
+                    'class' => 'vce-module-columns',
                     'id' => 'news-list',],
                 'itemOptions' => [
                     'tag' => 'div',
-                    'class' => 'clipstyle',
+                    'class' => 'main-box vce-border-top main-box-half',
                 ],
                 'emptyText' => '<b>Список клипов пуст</b>.',
                 'summary' => '<div class="container white">Найдено клипов: {totalCount}.</div><br>'

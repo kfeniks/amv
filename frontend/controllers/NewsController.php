@@ -16,7 +16,7 @@ class NewsController extends \yii\web\Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => News::find()->where(['hide'=>News::STATUS_APPROVED])->orderBy('date DESC'),
+            'query' => News::find()->where(['hide'=>News::STATUS_APPROVED])->orderBy('id DESC'),
             'pagination' => [
                 'pageSize' => 5,
             ],

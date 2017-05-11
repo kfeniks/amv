@@ -26,7 +26,7 @@ $this->registerMetaTag([
         </div>
         <div class="panel-body">
             <img src="/frontend/web/images/posts/<?= $model->img ?>" alt="<?= $model->title ?>" align="left"
-                 vspace="5" hspace="5" />
+                 vspace="5" hspace="5" style="width: 500px; height: 300px;" class="img-rounded" />
             <p><?= HtmlPurifier::process($model->full_text) ?></p>
             <p><?= Yii::$app->formatter->asDate($model->date, 'd MMMM yyyy') ?></p>
             <p>Просмотров: <?= $model->hits ?></p>

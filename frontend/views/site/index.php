@@ -60,36 +60,42 @@ $this->title = Yii::$app->name;
             </p>
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="primary" class="vce-main-content">
 
-            <div class="tm-plan-boxes-container">
+            <div class="vce-module-columns">
                 <?php if($model){
                 foreach ($model as $video){
                     $text = mb_substr($video->comments, 0, 100).'...';
+                    $name = mb_substr($video->title, 0, 56);
                     ?>
 
-                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 tm-table-col">
+                <div class="main-box vce-border-top main-box-half">
 
-                    <table class="tm-table-full-width">
-                        <thead>
-                        <tr class="tm-bg-green-1">
-                            <th class="tm-plan-table-header"><?= Html::encode($video->title) ?></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="tm-bg-green-2"><td class="tm-plan-table-cell"><img class="thumbnail" data-src="holder.js/300x200"
-                             alt="300x200" src="/frontend/web/files/<?= Html::encode($video->img) ?>" style="width: 300px; height: 200px;"></td></tr>
-                        <tr class="tm-bg-green-1"><td class="tm-plan-table-cell">
-                                <?php $video->CategoryIndex ?>
-                            </td></tr>
-                        <tr class="tm-bg-green-1"><td class="tm-plan-table-cell"><?= HtmlPurifier::process($text) ?></td></tr>
-                        <tr class="tm-bg-green-3">
-                            <td class="tm-plan-table-cell tm-plan-table-cell-pad-small text-xs-center">
-                                <a href="<?=Yii::$app->urlManager->createUrl(["videos/view", "id" => $video->id])?>" class="tm-bg-green-1 tm-btn-rounded tm-btn-green">Смотреть</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <h3 class="main-box-title cat-4"><a href="<?=Yii::$app->urlManager->createUrl(["videos/view", "id" => $video->id])?>"
+                                                        title="<?= Html::encode($video->title) ?>"><?= Html::encode($name) ?></a></h3>
+                    <div class="main-box-inside ">
+
+                        <article class="vce-post vce-lay-c post-192 post type-post status-publish format-video has-post-thumbnail hentry category-fashion post_format-post-format-video">
+
+                            <div class="meta-image">
+                                <a href="<?=Yii::$app->urlManager->createUrl(["videos/view", "id" => $video->id])?>" title="Hipster Yoga at the End of the World">
+                                    <img width="375" height="195" src="/frontend/web/files/<?= Html::encode($video->img) ?>" class="attachment-vce-lay-b size-vce-lay-b wp-post-image" alt="" />							<span class="vce-format-icon">
+                    </span>
+                                </a>
+                            </div>
+
+                            <header class="entry-header">
+                                <span class="meta-category"><?= Html::encode($video->user->username) ?></span>
+                                <h2 class="entry-title"></h2>
+                                <div class="entry-meta"><div class="meta-item date"><span class="updated">
+                                    <?=  HtmlPurifier::process(Yii::$app->formatter->asDate($video->created_at, 'd MMMM yyyy')) ?></span></div></div>	</header>
+
+                            <div class="entry-content">
+                                <p><?= HtmlPurifier::process($text) ?></p>
+                            </div>
+
+                        </article>
+                    </div>
 
                 </div>
                 <?php }} ?>

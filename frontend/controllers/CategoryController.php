@@ -42,7 +42,7 @@ class CategoryController extends Controller
     {
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Videos_category::find()->orderBy('id DESC'),
+            'query' => Category::find()->orderBy('id DESC'),
             'pagination' => [
                 'pageSize' => 20,
             ],

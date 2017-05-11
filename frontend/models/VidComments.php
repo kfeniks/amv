@@ -49,7 +49,7 @@ class VidComments extends ActiveRecord
 
     public function getUser()
     {
-        return $this->hasMany(User::className(), ['id' => 'user_id']);
+        return $this->hasMany(User::className(), ['id' => 'author_id']);
     }
 
 

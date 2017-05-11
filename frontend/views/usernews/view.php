@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Usernews */
@@ -20,7 +19,7 @@ $model->updateCounters(['hits' => 1]);
         <div class="panel-body">
             <img src="/frontend/web/images/news/<?= $model->img ?>" alt="<?= $model->title ?>" align="left"
                  vspace="5" hspace="5" />
-            <p><?= $model->full_text ?></p>
+            <p><?= $model->text ?></p>
             <p><?= Yii::$app->formatter->asDate($model->date_create, 'd MMMM yyyy') ?></p>
             <p>Просмотров: <?= $model->hits ?></p>
         </div>

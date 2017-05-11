@@ -11,6 +11,174 @@ body {
 	font-size: 22px;
 	font-weight: 300;
 }
+
+.vce-main-content {
+	max-width: 1340px;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: auto;
+	padding: 15px 1px 0 10px;
+}
+.vce-module-columns{
+
+}
+.vce-module-columns .main-box-half {
+	width: 395px;
+}
+.main-box, .comment-respond, .prev-next-nav {
+	background: #f9f9f9;
+}
+#disqus_thread, .comment-reply-title, .comment-respond, .comments-holder .navigation, .header-sticky, .main-box, .main-box-head, .main-box-title, .main-header, .mks-bredcrumbs-container, .sidebar .widget, .sidebar .widget-title, .vce-author-card, .vce-post, ul.comment-list>li.comment, ul.comment-list>li.pingback, ul.comment-list>li.trackback {
+	-moz-box-shadow: 0 1px 3px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.1);
+}
+#disqus_thread, .comment-respond, .main-box {
+	padding: 0;
+	margin-bottom: 40px;
+	margin-right: 40px;
+	float: left;
+	width: 100%;
+	-moz-box-shadow: 0 3px 6px 0 rgba(0,0,0,.07);
+	box-shadow: 0 3px 6px 0 rgba(0,0,0,.07);
+}
+body.category-4 .main-box-title, .main-box-title.cat-4 {
+	border-top: 2px solid #e54e7e;
+}
+.vce-border-top .main-box-title {
+	border-top: 2px solid #cf4d35;
+}
+.main-box-title, .comment-reply-title, .main-box-head {
+	background: #ffffff;
+	color: #232323;
+}
+.comment-reply-title, .main-box-title {
+	font-size: 22px;
+	line-height: 25px;
+	text-align: center;
+	margin-bottom: 0;
+	padding: 15px 15px 18px;
+}
+.main-box-inside {
+	padding: 20px 20px 0;
+}
+.main-box-inside, .vce-lay-a, .vce-lay-a .meta-image, .vce-lay-a img {
+	width: 100%;
+	float: left;
+}
+.main-box-half .vce-lay-c, .main-box-half .vce-lay-d, .main-box-half .vce-lay-f, .main-box-half .vce-lay-h {
+	width: 100%!important;
+	margin: 0 0 20px!important;
+}
+.vce-post, ul.comment-list > li.comment, .main-box-single, .ie8 .vce-single, #disqus_thread, .vce-author-card, .vce-author-card .vce-content-outside, .mks-bredcrumbs-container, ul.comment-list > li.pingback {
+	background: #ffffff;
+}
+.vce-lay-c {
+	width: 375px;
+	float: left;
+	padding-bottom: 10px;
+}
+#disqus_thread, .comment-reply-title, .comment-respond, .comments-holder .navigation, .header-sticky, .main-box, .main-box-head, .main-box-title, .main-header, .mks-bredcrumbs-container, .sidebar .widget, .sidebar .widget-title, .vce-author-card, .vce-post, ul.comment-list>li.comment, ul.comment-list>li.pingback, ul.comment-list>li.trackback {
+	-moz-box-shadow: 0 1px 3px 0 rgba(0,0,0,.1);
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.1);
+}
+article, aside, details, figcaption, figure, footer, header, main, nav, section {
+	display: block;
+}
+.vce-lay-c .meta-image {
+	float: left;
+	margin-bottom: 12px;
+	width: 100%;
+}
+.meta-image {
+	position: relative;
+	overflow: hidden;
+	z-index: 10;
+	max-width: 100%;
+}
+.vce-lay-c img {
+	float: left;
+	max-height: 195px;
+	width: 375px;
+}
+a img {
+	border: 0;
+}
+
+img {
+	 height: auto;
+	 -ms-interpolation-mode: bicubic;
+ }
+
+hr, img {
+	border: 0;
+}
+img, pre {
+	max-width: 100%;
+}
+.fa-stack, img {
+	vertical-align: middle;
+}
+.vce-lay-c .entry-header {
+	margin-bottom: 10px;
+	float: left;
+	width: 100%;
+}
+
+.vce-lay-c .meta-category {
+	text-align: center;
+	display: block;
+}
+span{
+	border: 0;
+	font-size: 100%;
+	margin: 0;
+	outline: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+.vce-lay-c .meta-category a {
+	font-size: 14px;
+	display: inline-block;
+}
+
+a.category-1, .sidebar .widget .vce-post-list a.category-1 {
+	color: #f4b23f;
+}
+.vce-lay-c .entry-title {
+	 text-align: center;
+	 padding: 0 20px;
+	 margin-bottom: 4px;
+ }
+.vce-lay-c .entry-title, .vce-sid-none .vce-lay-c .entry-title {
+	line-height: 28px;
+	font-size: 22px;
+}
+.vce-lay-c .entry-meta {
+	text-align: center;
+}
+.entry-meta div, .entry-meta div a, .comment-metadata a, .meta-category span, .meta-author-wrapped, .wp-caption .wp-caption-text, .widget_rss .rss-date, .sidebar cite, .site-footer cite, .sidebar .vce-post-list .entry-meta div, .sidebar .vce-post-list .entry-meta div a, .sidebar .vce-post-list .fn, .sidebar .vce-post-list .fn a, .site-footer .vce-post-list .entry-meta div, .site-footer .vce-post-list .entry-meta div a, .site-footer .vce-post-list .fn, .site-footer .vce-post-list .fn a, #bbpress-forums .bbp-topic-started-by, #bbpress-forums .bbp-topic-started-in, #bbpress-forums .bbp-forum-info .bbp-forum-content, #bbpress-forums p.bbp-topic-meta, span.bbp-admin-links a, .bbp-reply-post-date, #bbpress-forums li.bbp-header, #bbpress-forums li.bbp-footer, .woocommerce .woocommerce-result-count, .woocommerce .product_meta {
+	color: #9b9b9b;
+}
+.entry-meta div, .entry-meta div a, .entry-meta span {
+	white-space: nowrap;
+}
+.vce-lay-c .entry-content, .vce-lay-h .entry-content {
+	text-align: center;
+	padding: 0 30px;
+	font-size: 14px;
+	line-height: 22px;
+}
+.vce-lay-c p {
+	margin-bottom: 10px;
+}
+.entry-meta div, .entry-meta div a {
+	font-size: 14px;
+	line-height: 18px;
+	display: inline-block;
+	text-decoration: none;
+}
+
+
 .floatleft{
 	float: left;
 	padding-right: 10px;
@@ -21,6 +189,9 @@ body {
 	display: block;
 	height: 0;
 	clear: both;
+}
+.news-item{
+	margin-top: 15px;
 }
 
 .vcenter {

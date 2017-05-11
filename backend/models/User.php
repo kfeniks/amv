@@ -35,6 +35,10 @@ use yii\helpers\HtmlPurifier;
  */
 class User extends \yii\db\ActiveRecord
 {
+
+    const STATUS_DELETED = 0;
+    const STATUS_NOT_ACTIVE = 5;
+    const STATUS_ACTIVE = 10;
     /**
      * @inheritdoc
      */
@@ -42,22 +46,22 @@ class User extends \yii\db\ActiveRecord
     {
         return 'user';
     }
-
+    public $fileImage;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['username', 'name', 'sex', 'birthdate_day', 'country', 'city', 'website', 'about', 'auth_key', 'password_hash', 'email'], 'required'],
+            [['username', 'name', 'email'], 'required'],
             [['birthdate_day'], 'safe'],
-            [['status', 'created_at', 'updated_at', 'admin_role', 'karma'], 'integer'],
-            [['username', 'name', 'profile_type', 'avatar', 'sex', 'country', 'city', 'website', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['status', 'created_at', 'karma', 'sex_id', 'country_id'], 'integer'],
+            [['username', 'name', 'profile_type', 'city', 'website', 'email'], 'string', 'max' => 255],
             [['about'], 'string', 'max' => 250],
-            [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
+            [['fileImage'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxSize'=>1024 * 300 * 1],
         ];
     }
 

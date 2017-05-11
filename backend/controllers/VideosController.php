@@ -199,7 +199,9 @@ class VideosController extends Controller
                 }
                 $model->folder;
                 $model->img = $model->user->username . '/' . $model->fileImage->baseName . '.' . $model->fileImage->extension;
+                $category = Yii::$app->request->post('category');
                 if(!$model->save()){return $this->redirect(['site/error']);}
+                $model->saveCategory($category);
                 $model->fileImage->saveAs($dirname . $model->user->username . '/' . $model->fileImage->baseName . '.' . $model->fileImage->extension);
                 return $this->redirect(['update', 'id' => $model->id]);
             }
@@ -256,7 +258,7 @@ class VideosController extends Controller
     }
     public function actionUpdate_videos_step4($id)
     {
-        $model = $this->findOnepreview($id);
+        $model = $this->findOnedirect($id);
         $model->updated_at = date("Y-m-d H:i:s");
         $model->check_date = date("Y-m-d H:i:s");
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

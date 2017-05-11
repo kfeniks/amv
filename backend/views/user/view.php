@@ -59,7 +59,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'created_at:datetime',
             'updated_at:datetime',
-            'admin_role',
             'karma',
         ],
     ]) ?>

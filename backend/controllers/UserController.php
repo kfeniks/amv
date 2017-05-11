@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\UploadedFile;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -75,9 +76,18 @@ class UserController extends Controller
     {
         $model = new User();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->fileImage = UploadedFile::getInstance($model, 'fileImage');
+            if($model->fileImage){
+                $dirname = __DIR__.'/../../frontend/web/images/users/';
+                $model->avatar = $model->fileImage->baseName . '.' . $model->fileImage->extension;
+                if(!$model->save()){return $this->redirect(['site/error']);}
+                $model->fileImage->saveAs($dirname . '/' . $model->fileImage->baseName . '.' . $model->fileImage->extension);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else {
+                return $this->redirect(['site/error']);
+            }
+        }  else {
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -93,10 +103,35 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->updated_at = date("Y-m-d H:i:s");
+        if ($model->load(Yii::$app->request->post())) {
+            $model->fileImage = UploadedFile::getInstance($model, 'fileImage');
+            if ($model->fileImage) {
+                $current_image = $model->avatar;
+                $dirname = __DIR__ . '/../../frontend/web/images/users/';
+                $dir = $dirname . $current_image;
+                if (file_exists($dir)) {
+                    //удаляем файл
+                    unlink($dir);
+                    $model->avatar = '';
+                }
+                $model->avatar = $model->fileImage->baseName . '.' . $model->fileImage->extension;
+                if (!$model->save()) {
+                    return $this->redirect(['site/error']);
+                }
+                $model->fileImage->saveAs($dirname . '/' . $model->fileImage->baseName . '.' . $model->fileImage->extension);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                if (!$model->save()) {
+                  //  print_r($model->getErrors());
+                   return $this->redirect(['site/error']);
+                }
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+
+       else {
             return $this->render('update', [
                 'model' => $model,
             ]);
