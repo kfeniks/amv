@@ -54,7 +54,7 @@ class VideosController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Videos::find()->where(['availability'=>Videos::STATUS_APPROVED])->andWhere(['status'=>Videos::STATUS_ON])->orderBy('created_at DESC'),
             'pagination' => [
-                'pageSize' => 6,
+                'pageSize' => 9,
             ],
         ]);
         $this->view->title = 'Клипы';

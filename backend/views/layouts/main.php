@@ -45,6 +45,7 @@ AppAsset::register($this);
             ['label' => 'Videos', 'url' => ['/videos/index/']],
             ['label' => 'Вопросы', 'url' => ['/faqs/index/']],
             ['label' => 'Ip', 'url' => ['/ip/index/']],
+            ['label' => 'Messages', 'url' => ['/usersmessages/index/']],
         ];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')

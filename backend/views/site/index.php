@@ -15,6 +15,7 @@ $this->title = 'Админ-панель AMV.PP.UA';
         <p><a href="<?=Yii::$app->urlManager->createUrl(["videos/index"])?>" class="btn btn-lg btn-success">Редактировать Видео</a></p>
         <p><a href="<?=Yii::$app->urlManager->createUrl(["faqs/index"])?>" class="btn btn-lg btn-success">Редактировать Faqs</a></p>
         <p><a href="<?=Yii::$app->urlManager->createUrl(["ip/index"])?>" class="btn btn-lg btn-success">Ip</a></p>
+        <p><a href="<?=Yii::$app->urlManager->createUrl(["usersmessages/index"])?>" class="btn btn-lg btn-success">Сообщения</a></p>
     </div>
 
     <div class="body-content">

@@ -55,6 +55,7 @@ class Ip extends ActiveRecord
         echo'<div class="row">';
 echo'<div class="col-md-3">'. HtmlPurifier::process(Yii::$app->formatter->asDate($ip->date, 'd MMMM yyyy')).'</div>';
             echo'<div class="col-md-3">'. $ip->ip .'</div>';
+            echo'<div class="col-md-3">'. $ip->host .'</div>';
 
             echo'</div>';
      }

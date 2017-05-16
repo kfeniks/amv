@@ -150,7 +150,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $IpBehavior = new IpBehavior();
             $IpBehavior->ip = Yii::$app->request->userIP;
-            $IpBehavior->host = Yii::$app->request->userHost;
+            $IpBehavior->host = Yii::$app->request->headers->get('User-Agent');
             $IpBehavior->user_id = Yii::$app->user->identity->getId();
             $IpBehavior->save();
             return $this->redirect(['site/home']);

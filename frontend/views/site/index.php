@@ -78,7 +78,7 @@ $this->title = Yii::$app->name;
                         <article class="vce-post vce-lay-c post-192 post type-post status-publish format-video has-post-thumbnail hentry category-fashion post_format-post-format-video">
 
                             <div class="meta-image">
-                                <a href="<?=Yii::$app->urlManager->createUrl(["videos/view", "id" => $video->id])?>" title="Hipster Yoga at the End of the World">
+                                <a href="<?=Yii::$app->urlManager->createUrl(["videos/view", "id" => $video->id])?>" title="<?= Html::encode($video->title) ?>">
                                     <img width="375" height="195" src="/frontend/web/files/<?= Html::encode($video->img) ?>" class="attachment-vce-lay-b size-vce-lay-b wp-post-image" alt="" />							<span class="vce-format-icon">
                     </span>
                                 </a>

@@ -3,7 +3,7 @@ namespace frontend\controllers;
 
 use Yii;
 use frontend\models\Usernews;
-use yii\data\ActiveDataProvider;
+use yii\web\NotFoundHttpException;
 
 
 
@@ -21,6 +21,9 @@ class UsernewsController extends \yii\web\Controller
 
     public function actionView($id)
     {
+        if (($model = Usernews::findOne($id)) == null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);

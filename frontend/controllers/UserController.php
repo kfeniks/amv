@@ -60,6 +60,9 @@ class UserController extends \yii\web\Controller
 
     public function actionView($id)
     {
+        if (User::findOne($id) == null) {
+            return $this->redirect(['site/error']);
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => Videos::find()->where(['author_id'=>$this->findModel($id)->id])->orderBy('id DESC'),
             'pagination' => [

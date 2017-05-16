@@ -14,7 +14,7 @@ $name = mb_substr($model->title, 0, 56);
                 <article class="vce-post vce-lay-c post-192 post type-post status-publish format-video has-post-thumbnail hentry category-fashion post_format-post-format-video">
 
                     <div class="meta-image">
-                        <a href="<?=Yii::$app->urlManager->createUrl(["videos/view", "id" => $model->id])?>" title="Hipster Yoga at the End of the World">
+                        <a href="<?=Yii::$app->urlManager->createUrl(["videos/view", "id" => $model->id])?>" title="<?= Html::encode($model->title) ?>">
                             <img width="375" height="195" src="/frontend/web/files/<?= Html::encode($model->img) ?>" class="attachment-vce-lay-b size-vce-lay-b wp-post-image" alt="" />							<span class="vce-format-icon">
                     </span>
                         </a>
@@ -25,10 +25,11 @@ $name = mb_substr($model->title, 0, 56);
                         <h2 class="entry-title"></h2>
                         <div class="entry-meta"><div class="meta-item date"><span class="updated">
                                     <?=  HtmlPurifier::process(Yii::$app->formatter->asDate($model->created_at, 'd MMMM yyyy')) ?></span></div></div>	</header>
-
+<!--
                     <div class="entry-content">
-                        <p><?= HtmlPurifier::process($text) ?></p>
+                        <p><?php // HtmlPurifier::process($text) ?></p>
                     </div>
+                    -->
 
                 </article>
             </div>

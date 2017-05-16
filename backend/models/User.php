@@ -145,9 +145,10 @@ class User extends \yii\db\ActiveRecord
         foreach ($ips as $ip){
             $ip1 = $ip->ip;
             $ip2 = HtmlPurifier::process(Yii::$app->formatter->asDate($ip->date, 'd MMMM yyyy'));
-            $ip3 = '<p>'.$ip1.' '.$ip2.'</p><br>';
-            return $ip3;
+            $ip3 = $ip->host;
+            $ip4 = '<p>'.$ip1.' || '.$ip2.' || '.$ip3.'</p><br>';
+            return $ip4;
         }
-        }else{return $ip3 = 'Нет записей об IP';}
+        }else{return $ip4 = 'Нет записей об IP';}
     }
 }

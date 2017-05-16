@@ -45,6 +45,9 @@ class MessagesController extends Controller
 
     public function actionView($id)
     {
+        if (Messages::findOne($id) == null) {
+            return $this->redirect(['site/error']);
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
