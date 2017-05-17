@@ -19,12 +19,9 @@ $this->title = 'Пользователь '. Html::encode($model->username);
                 <p>Дата регистрации: <?= HtmlPurifier::process(Yii::$app->formatter->asDate($model->created_at, 'd MMMM yyyy')) ?></p>
                 <p>Емеил: <?= $model->email ?></p>
                 <p>Статус: <?= $model->profile_type ?></p>
-                <?php use frontend\models\Sex;
-                $sex_user = Sex::find()->where(['id' => $model->sex_id])->one();
-                ?>
-                <p>Пол: <?= $model->SexName ?>.</p>
+                <p>Пол: <?= $model->sex->name ?>.</p>
                 <p>День Рождения: <?= HtmlPurifier::process(Yii::$app->formatter->asDate($model->birthdate_day, 'd MMMM yyyy')) ?></p>
-                <p>Страна: <?= $model->CountryName ?></p>
+                <p>Страна: <?= $model->country->name ?></p>
                 <p>Город: <?= $model->city ?></p>
                 <p>Сайт: <a href="<?= $model->website ?>"><?= $model->website ?></a></p>
                 <p>Обо мне: <?= $model->about ?></p><!--/noindex-->

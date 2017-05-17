@@ -23,13 +23,13 @@ $this->title = 'Пользователь '. Html::encode($model->username);
             <p>Дата регистрации: <?= HtmlPurifier::process(Yii::$app->formatter->asDate($model->created_at, 'd MMMM yyyy')) ?></p>
             <p>Статус: <?= $model->profile_type ?></p>
             <?php if ($model->sex_id !== null){?>
-                <p>Пол: <?= $model->SexName ?>.</p>
+                <p>Пол: <?= $model->sex->name ?>.</p>
             <?php } ?>
             <?php if ($model->birthdate_day !== null){?>
             <p>День Рождения: <?= HtmlPurifier::process(Yii::$app->formatter->asDate($model->birthdate_day, 'd MMMM yyyy')) ?></p>
             <?php } ?>
             <?php if ($model->country_id !== null){?>
-            <p>Страна: <?= $model->CountryName ?></p>
+            <p>Страна: <?= $model->country->name ?></p>
             <?php } ?>
             <!--noindex-->
             <?php if ($model->city !== null){?>

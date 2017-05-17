@@ -255,16 +255,5 @@ class User extends ActiveRecord implements IdentityInterface
         if($num >= 45000){$level = '<em>уровень GodMode</em>';};
         return $karmaStatus = $karma.'('.$level.')';
     }
-    public function getSexName()
-    {
-        $sex_user = Sex::find()->where(['id' => $this->sex_id])->one();
-        $sexName = $sex_user->name;
-        return $sexName;
-    }
-    public function getCountryName()
-    {
-        $country_user = Country::find()->where(['id' => $this->country_id])->one();
-        $countryName = $country_user->name;
-        return $countryName;
-    }
+
 }

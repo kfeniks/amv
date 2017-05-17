@@ -9,7 +9,6 @@ use yii\widgets\ListView;
 $this->title = $model->title;
 $model->updateCounters(['hits' => 1]);
 $model->user->updateCounters(['karma' => 1]);
-//$model->checkVideoStatus();
 $this->registerMetaTag([
     'name' => 'description',
     'content' => $model->meta_desc
