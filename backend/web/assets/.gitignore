@@ -1,2 +1,6 @@
 *
 !.gitignore
+/assets
+/bootstrap
+/dist
+/img

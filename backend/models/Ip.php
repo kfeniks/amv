@@ -66,7 +66,7 @@ echo'<div class="col-md-3">'. HtmlPurifier::process(Yii::$app->formatter->asDate
     {
         $myCheck = '';
         $ipUser = self::find()->all();
-        echo '<div class="container white home"><h3>Поиск мультиводов по ip:</h3>';
+        echo '<div class="inner">';
         foreach ($ipUser as $ips) {
 
             $user = self::find()->where(['ip'=>$ips->ip])->count();
@@ -74,12 +74,12 @@ echo'<div class="col-md-3">'. HtmlPurifier::process(Yii::$app->formatter->asDate
                 $userCheck = self::find()->where(['ip'=>$ips->ip])->all();
                 $id = $userCheck->user_id;
                 foreach ($userCheck as $userCheckIp) {
-                    if($userCheckIp->user_id !== $id && $myCheck !== null && $myCheck !== $userCheckIp->ip){$myCheck = $userCheckIp->ip;echo $myCheck.'<br>';}
+                    if($userCheckIp->user_id !== $id && $myCheck !== null && $myCheck !== $userCheckIp->ip){$myCheck = $userCheckIp->ip; echo '<h3>'.$myCheck.'</h3>';}
                 }
 
             }
         }
-        echo '</div>';
+        echo '<p>Поиск мультиводов по ip</p></div>';
     }
 
 

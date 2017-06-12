@@ -74,8 +74,8 @@ class Userdownloads extends ActiveRecord
     }
 
     public function getUserName(){
-        $userName = User::find()->where(['id'=>$this->user_id])->one();
-        $name = $userName->username;
+        $userName = Videos::find()->where(['id'=>$this->videos_id])->one();
+        $name = $userName->user->username;
         return $name;
 
     }

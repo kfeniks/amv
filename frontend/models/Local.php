@@ -173,6 +173,7 @@ class Local extends ActiveRecord
         $headers = get_headers($url, 1);
         if(in_array('video/x-msvideo', $headers)){return $cloud = 200;}
         elseif (in_array('video/mp4', $headers)){return $cloud = 200;}
+        elseif (in_array('video/mpeg', $headers)){return $cloud = 200;}
         else{
             return $cloud = 404;
         }
