@@ -127,7 +127,7 @@ class VideosController extends Controller
             $model->saveCategory($category);
             $model->fileImage->saveAs($dirname . $model->user->username . '/' . $model->fileImage->baseName . '.' . $model->fileImage->extension);
 
-            return $this->redirect(['create']);
+            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         else
@@ -146,7 +146,7 @@ class VideosController extends Controller
         $model = new Local();
 
         if ( $model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['create']);
+            return $this->redirect(['update', 'id' => $model->videos_id]);
         } else {
             return $this->render('create_local', [
                 'model' => $model,
@@ -158,7 +158,7 @@ class VideosController extends Controller
         $model = new Preview();
 
         if ( $model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['create']);
+            return $this->redirect(['update', 'id' => $model->videos_id]);
         } else {
             return $this->render('create_preview', [
                 'model' => $model,
@@ -171,7 +171,7 @@ class VideosController extends Controller
         $model = new Direct();
 
         if ( $model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['create']);
+            return $this->redirect(['update', 'id' => $model->videos_id]);
         } else {
             return $this->render('create_direct', [
                 'model' => $model,

@@ -32,7 +32,7 @@ class Videos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'author_id', 'img', 'anime', 'song', 'comments', 'availability', 'status', 'opinion_id', 'premiered', 'duration'], 'required'],
+            [['title', 'author_id', 'img', 'anime', 'song', 'comments', 'availability', 'status', 'opinion_id', 'premiered', 'duration', 'hits'], 'required'],
             [['premiered', 'duration'], 'safe'],
             [['author_id', 'availability', 'is_recommended', 'status', 'opinion_id', 'award_week', 'award_month', 'hits'], 'integer'],
             [['title'], 'string', 'max' => 70],

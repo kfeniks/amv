@@ -155,6 +155,7 @@ class Preview extends ActiveRecord
         if(in_array('video/x-msvideo', $headers)){return $cloud = 200;}
         elseif (in_array('video/mp4', $headers)){return $cloud = 200;}
         elseif (in_array('video/mpeg', $headers)){return $cloud = 200;}
+        elseif (in_array('video/x-ms-wmv', $headers)){return $cloud = 200;}
         else{
             return $cloud = 404;
         }

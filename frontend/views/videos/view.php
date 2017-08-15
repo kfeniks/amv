@@ -82,6 +82,10 @@ $this->registerMetaTag([
             <p><b>Версия на другом хостинге:</b>
                 <?= $model->LinkDirect?>
             </p>
+            <img src="/frontend/web/img/heart_add.png" alt="heart add amv клип избранное" title="Добавить в избранное клип"
+                 style="display: block; position: fixed; right:6px; top: 75%;" />
+            <img src="/frontend/web/img/stop_sign.png" alt="stop sign amv клип пожаловаться" title="Пожаловаться на клип"
+                 style="display: block; position: fixed; right:6px; top: 80%;" />
                     </div>
     </div>
     </div>
