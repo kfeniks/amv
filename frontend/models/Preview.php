@@ -121,9 +121,11 @@ class Preview extends ActiveRecord
     public function getRefresh()
     {
         if($this->check_id !== self::STATUS_APPROVED){return header( 'Refresh: 0; url='.Yii::$app->urlManager->createUrl(["site/index"]).'' );}
-        else
-        {return header( 'Refresh: 5; url='.Yii::$app->urlManager->createUrl(["videos/download_preview", "id" => $this->id]).'' );}
+        else{
+            return header( 'Refresh: 5; url='.Yii::$app->urlManager->createUrl(["videos/download_preview", "id" => $this->id]).'' );
+        }
     }
+
     public function getCounters()
     {
         return $this->updateCounters(['load_count' => 1]);
@@ -137,11 +139,30 @@ class Preview extends ActiveRecord
     {
         return $file = 'https://rocld.com/'.$this->url;
     }
+
+    public function getYadiCloud()
+    {
+        //https://getfile.dokpub.com/yandex/get/https://yadi.sk/i/Fws9q2u_fmNZn
+        return $file = 'https://getfile.dokpub.com/yandex/get/https://yadi.sk/'.$this->yadi;
+    }
+
+    public function getVkCloud()
+    {
+        //https://vk.com/doc5131697_449239941
+        return $file = 'https://vk.com/doc'.$this->vk;
+    }
+
+    public function getDropboxCloud()
+    {
+        //https://www.dropbox.com/s/c2w68pfwarxdlwa/0134.Wolf_Snow_-_Night-Patrol_full.keccgroup.ru.avi?dl=1
+        return $file = 'https://www.dropbox.com/s/'.$this->dropbox.'?dl=1';
+    }
+
     public function getFileExistsCloud()
     {
         $url = $this->filecloud;
         $headers = get_headers($url, 1);
-        if(in_array('video/x-msvideo', $headers)){return $cloud = 'файл доступен';}
+        if(in_array('video/x-msvideo', $headers) xor in_array('video/mp4', $headers) xor in_array('video/mpeg', $headers) xor in_array('video/x-ms-wmv', $headers) xor in_array('video/x-matroska', $headers)){return $cloud = 'файл доступен';}
         else{
             echo $cloud = 'Упс, этого файла нет на сервере. Обратитесь к администратору.';
             return header( 'Refresh: 5; url='.Yii::$app->urlManager->createUrl(["site/index"]).'' );
@@ -152,15 +173,38 @@ class Preview extends ActiveRecord
     {
         $url = $this->filecloud;
         $headers = get_headers($url, 1);
-        if(in_array('video/x-msvideo', $headers)){return $cloud = 200;}
-        elseif (in_array('video/mp4', $headers)){return $cloud = 200;}
-        elseif (in_array('video/mpeg', $headers)){return $cloud = 200;}
-        elseif (in_array('video/x-ms-wmv', $headers)){return $cloud = 200;}
+        if(in_array('video/x-msvideo', $headers) xor in_array('video/mp4', $headers) xor in_array('video/mpeg', $headers) xor in_array('video/x-ms-wmv', $headers) xor in_array('video/x-matroska', $headers)){return $cloud = 200;}
         else{
             return $cloud = 404;
         }
     }
 
+    public function getYadiExists()
+    {
+        $url = $this->yadicloud;
+        $headers = get_headers($url, 1);
+        $http_response_code = substr($headers[0], 9, 3);
+        if($http_response_code == '302'){return $cloud = 200;}
+        else{return $cloud = 404;}
+    }
+
+    public function getVkExists()
+    {
+        $url = $this->vkcloud;
+        $headers = get_headers($url, 1);
+        $http_response_code = substr($headers[0], 9, 3);
+        if($http_response_code == '302'){return $cloud = 200;}
+        else{return $cloud = 404;}
+    }
+
+    public function getDropboxExists()
+    {
+        $url = $this->dropboxcloud;
+        $headers = get_headers($url, 1);
+        $http_response_code = substr($headers[0], 9, 3);
+        if($http_response_code == '302'){return $cloud = 200;}
+        else{return $cloud = 404;}
+    }
 
     public function formatName()
     {

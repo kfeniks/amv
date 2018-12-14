@@ -6,7 +6,7 @@ $name = mb_substr($model->videos->title, 0, 56);
 ?>
 
 <h3 class="main-box-title cat-4"><a href="<?=Yii::$app->urlManager->createUrl(["videos/view", "id" => $model->videos->id])?>"
-                                    title="<?= Html::encode($model->videos->title) ?>"><?= Html::encode($name) ?></a></h3>
+                                    title="<?= Html::encode($model->videos->title) ?>"><?= Html::encode($model->videos->title) ?></a></h3>
 <div class="main-box-inside ">
 
     <article class="vce-post vce-lay-c post-192 post type-post status-publish format-video has-post-thumbnail hentry category-fashion post_format-post-format-video">

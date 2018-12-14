@@ -1,13 +1,13 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
 use common\models\User;
 
 
 /**
- * This is the model class for table "category".
+ * This is the model class for table "country".
  *
  * @property integer $idGroups
  * @property string $groupsName

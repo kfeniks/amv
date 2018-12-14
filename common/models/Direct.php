@@ -1,6 +1,7 @@
 <?php
 
-namespace backend\models;
+namespace common\models;
+
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -69,31 +70,77 @@ class Direct extends ActiveRecord
     public function getFormat()
     {
 
-        return $this->hasOne(\frontend\models\Format::className(), ['id' => 'format_id']);
+        return $this->hasOne(Format::className(), ['id' => 'format_id']);
     }
 
     public function getCheckVid()
     {
 
-        return $this->hasOne(\frontend\models\CheckVid::className(), ['id' => 'check_id']);
+        return $this->hasOne(CheckVid::className(), ['id' => 'check_id']);
     }
 
     public function getCodecAudio()
     {
 
-        return $this->hasOne(\frontend\models\CodecAudio::className(), ['id' => 'codec_audio_id']);
+        return $this->hasOne(CodecAudio::className(), ['id' => 'codec_audio_id']);
     }
 
     public function getCodecVid()
     {
 
-        return $this->hasOne(\frontend\models\CodecVid::className(), ['id' => 'codec_vid_id']);
+        return $this->hasOne(CodecVid::className(), ['id' => 'codec_vid_id']);
     }
 
     public function getVideos()
     {
 
         return $this->hasOne(Videos::className(), ['id' => 'videos_id']);
+    }
+
+    public function getCounters()
+    {
+        if($this->check_id !== self::STATUS_APPROVED){return header( 'Refresh: 0; url='.Yii::$app->urlManager->createUrl(["site/index"]).'' );}
+        else
+        {return $this->updateCounters(['load_count' => 1]);}
+    }
+
+    public function formatName()
+    {
+        $format = Format::findOne($this->format_id);
+        $formatName = $format->name;
+        return $formatName;
+    }
+
+    public function CodecAudioName()
+    {
+        $format = CodecAudio::findOne($this->codec_audio_id);
+        $name = $format->name;
+        return $name;
+    }
+
+    public function CodecVidName()
+    {
+        $format = CodecVid::findOne($this->codec_vid_id);
+        $name = $format->name;
+        return $name;
+    }
+
+    public function getUserDownloads()
+    {
+        if (Yii::$app->user->isGuest) {}
+        else{
+            if($this->user_id !== Yii::$app->user->identity->id){
+                $video = Userdownloads::find()->where(['videos_id' => $this->videos_id])->andwhere(['user_id' => Yii::$app->session->get('idVideo')])->one();
+                if($video){}
+                else{
+                    $videos_downloads = new Userdownloads();
+                    $videos_downloads->videos_id = $this->videos_id;
+                    $videos_downloads->user_id = Yii::$app->user->identity->id;
+                    $videos_downloads->save();
+                }
+            }
+        }
+
     }
 
 }

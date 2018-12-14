@@ -1,12 +1,12 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
+
 
 /**
- * This is the model class for table "category".
+ * This is the model class for table "rankings".
  *
  * @property integer $idGroups
  * @property string $groupsName
@@ -15,7 +15,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $updated_at
  */
 
-class IpBehavior extends ActiveRecord
+class Rankings extends ActiveRecord
 {
 
 
@@ -24,7 +24,7 @@ class IpBehavior extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'IpBehavior';
+        return '{{%rankings}}';
     }
 
 
@@ -38,9 +38,10 @@ class IpBehavior extends ActiveRecord
         ];
     }
 
-    public function getUser()
+    public function getVideos()
     {
-        return $this->hasOne(User::className(), ['user_id' => 'id']);
+        return $this->hasMany(Videos::className(), ['id' => 'videos_id'])
+            ->viaTable('rank_users', ['rank_id'=> 'id']);
     }
 
 }

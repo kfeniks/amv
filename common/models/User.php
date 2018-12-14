@@ -1,21 +1,18 @@
 <?php
 namespace common\models;
-use frontend\models\Sex;
-use frontend\models\Country;
-use frontend\models\Videos;
-use frontend\models\Messages;
-use frontend\models\Rankusers;
-use frontend\models\Userdownloads;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\helpers\HtmlPurifier;
 
 /**
  * User model
  *
  * @property integer $id
+ * @property integer $karma
+ * @property integer $num
  * @property string $username
  * @property string $password_hash
  * @property string $password_reset_token
@@ -25,12 +22,15 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property string $level
  */
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_NOT_ACTIVE = 5;
     const STATUS_ACTIVE = 10;
+
+    public $fileImage;
 
 
     /**
@@ -57,27 +57,43 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['name', 'email'], 'required', 'message'=>'{attribute} не может быть пустым'],
+            [['username', 'name', 'email'], 'required', 'message'=>'{attribute} не может быть пустым'],
             [['name', 'website', 'city'], 'string', 'max' => 150],
-            [['about'], 'string', 'max' => 255],
-            [['email'], 'unique'],
             [['birthdate_day'], 'safe'],
-            [['sex_id', 'country_id'], 'integer'],
+            [['status', 'created_at', 'karma', 'sex_id', 'country_id'], 'integer'],
+            [['username', 'name', 'profile_type', 'city', 'website', 'email'], 'string', 'max' => 255],
+            [['about'], 'string', 'max' => 250],
+            [['username'], 'unique'],
+            [['email'], 'unique'],
+            [['password_reset_token'], 'unique'],
+            [['fileImage'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxSize'=>1024 * 300 * 1],
         ];
     }
     public function attributeLabels()
     {
         return [
-            'name' => 'Имя',
+            'id' => 'ID',
             'username' => 'Автор',
-            'sex_id' => 'Пол',
-            'country_id' => 'Страна',
-            'website' => 'Вебсайт',
-            'country' => 'Страна',
-            'city' => 'Город',
-            'about' => 'Обо мне',
+            'name' => 'Имя',
+            'profile_type' => 'Profile Type',
+            'avatar' => 'Avatar',
+            'sex' => 'Пол',
+            'sex_id' => 'ID пола',
             'birthdate_day' => 'Мой День Рождения',
-
+            'country' => 'Страна',
+            'country_id' => 'ID cтраны',
+            'city' => 'Город',
+            'website' => 'Вебсайт',
+            'about' => 'Обо мне',
+            'auth_key' => 'Auth Key',
+            'password_hash' => 'Password Hash',
+            'password_reset_token' => 'Password Reset Token',
+            'email' => 'Email',
+            'status' => 'Status',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'admin_role' => 'Admin Role',
+            'karma' => 'Karma',
         ];
     }
     /**
@@ -211,49 +227,138 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getSex()
     {
 
         return $this->hasOne(Sex::className(), ['id' => 'sex_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCountry()
     {
 
         return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getVideos()
     {
         return $this->hasMany(Videos::className(), ['author_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getMessages()
     {
         return $this->hasMany(Messages::className(), ['user_id_to' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUserdownloads()
     {
         return $this->hasMany(Userdownloads::className(), ['user_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getRankusers()
     {
         return $this->hasMany(Rankusers::className(), ['user_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWishlist()
+    {
+        return $this->hasMany(Wishlist::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Getting the status of Karma by the number of bonuses in the account
+     *
+     * @param int $karma
+     * @param int $num
+     * @param string $level
+     * @return string $karmaStatus
+     */
     public function getKarmaStatus()
     {
         $karma = number_format($this->karma) . ' симпатий ';
         $num = $this->karma;
-        if($num < 5000){$level = '<em>Новичок</em>';};
-        if($num >= 5000){$level = '<em>Активный</em>';};
-        if($num >= 15000){$level = '<em>Знаток</em>';};
-        if($num >= 25000){$level = '<em>Наставник</em>';};
-        if($num >= 35000){$level = '<em>Гуру</em>';};
-        if($num >= 45000){$level = '<em>уровень GodMode</em>';};
-        return $karmaStatus = $karma.'('.$level.')';
+        $level = '';
+        if($num < 5000){$level = '<em>Новичок</em>';}
+        elseif($num >= 5000){$level = '<em>Активный</em>';}
+        elseif($num >= 15000){$level = '<em>Знаток</em>';}
+        elseif($num >= 25000){$level = '<em>Наставник</em>';}
+        elseif($num >= 35000){$level = '<em>Гуру</em>';}
+        elseif($num >= 45000){$level = '<em>уровень GodMode</em>';}
+        return $karma.'('.$level.')';
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocals()
+    {
+        return $this->hasMany(Local::className(), ['user_id' => 'id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPreview()
+    {
+        return $this->hasMany(Preview::className(), ['user_id' => 'id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDirect()
+    {
+        return $this->hasMany(Direct::className(), ['user_id' => 'id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIpBehavior()
+    {
+        return $this->hasMany(IpBehavior::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Getting the current user's ip address list
+     *
+     * @param array $ips
+     * @param int $ip1
+     * @param string $ip2
+     * @param string $ip3
+     * @param string $ip4
+     * @return string $result
+     */
+    public function getIp()
+    {
+        $ips = IpBehavior::find()->where(['user_id' => $this->id])->limit(10)->orderBy('id DESC')->all();
+        if($ips !== null){
+            $result = '';
+            foreach ($ips as $user){
+                $ip1 = $user->ip;
+                $ip2 = HtmlPurifier::process(Yii::$app->formatter->asDate($user->date, 'd MMMM yyyy'));
+                $ip3 = $user->host;
+                $ip4 = '<p>'.$ip1.' || '.$ip2.' || '.$ip3.'</p><br>';
+                $result .= $result . $ip4;
+            }
+        }else{$result = 'Нет записей об IP';}
+        return $result;
+    }
 }

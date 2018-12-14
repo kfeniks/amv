@@ -101,10 +101,16 @@ class Videos extends ActiveRecord
         return $this->hasMany(Category::className(), ['id' => 'category_id'])
             ->viaTable('videos_category', ['videos_id'=> 'id']);
     }
+
     public function getRankings()
     {
         return $this->hasMany(Rankings::className(), ['id' => 'rank_id'])
             ->viaTable('rank_users', ['videos_id'=> 'id']);
+    }
+
+    public function getWishlist()
+    {
+        return $this->hasMany(Wishlist::className(), ['videos_id' => 'id']);
     }
 
     public function ifMyClip()
@@ -217,15 +223,31 @@ class Videos extends ActiveRecord
             $user = Yii::$app->user->identity->id;
             $user_file = $localvideos->user_id;
 
-            if($localvideos->check_id !== 1 && $localvideos->cloudexists !== 404){$local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal",
-                    "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->file_size. 'мб. ';}
+            ($localvideos->url !== null && $localvideos->cloudexists !== 404) ? $url = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal",
+                    "id" => $localvideos->id]). '" role="button">Скачать</a>' : $url = '';
+
+            ($localvideos->vk !== null && $localvideos->vkexists !== 404) ? $vk = '<a class="btn btn-lg btn-primary" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal",
+                    "id" => $localvideos->id, "mirror" => 1]). '" role="button">Зеркало 1</a>' : $vk = '';
+
+            ($localvideos->yadi !== null && $localvideos->yadiexists !== 404) ? $yadi = '<a class="btn btn-lg btn-info" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal",
+                    "id" => $localvideos->id, "mirror" => 2]). '" role="button">Зеркало 2</a>' : $yadi = '';
+
+            ($localvideos->dropbox !== null && $localvideos->dropboxexists !== 404) ? $dropbox = '<a class="btn btn-lg btn-warning" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal",
+                    "id" => $localvideos->id, "mirror" => 3]). '" role="button">Зеркало 3</a>' : $dropbox = '';
+
+            if($localvideos->check_id !== 1){
+                if($url == null and $vk == null and $yadi == null and $dropbox == null) {
+                    $local = $error;
+                } else $local = $url.' '.$vk.' '.$yadi.' '.$dropbox. '<br/><b>Размер:</b> '. $localvideos->file_size. 'мб. ';
+                }
             else{
                 if($user == $user_file && $localvideos->cloudexists !== 404){$status = $localvideos->checkVid->check_name;
                     $local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewlocal",
-                            "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->file_size. 'мб. '.$status;
+                            "id" => $localvideos->id]). '" role="button">Скачать</a> '.$dropbox.' '.$yadi. '<br/><b>Размер:</b> '. $localvideos->file_size. 'мб. '.$status;
                 }
                 else{$local = 'Файл не найден.';}
-                }
+            }
+
             return $local;
         } else {
             return $error;
@@ -239,12 +261,26 @@ class Videos extends ActiveRecord
             $user = Yii::$app->user->identity->id;
             $user_file = $localvideos->user_id;
 
-            if($localvideos->check_id !== 1 && $localvideos->cloudexists !== 404){$local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview",
-                    "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->file_size. 'мб. ';}
+            ($localvideos->url !== null && $localvideos->cloudexists !== 404) ? $url = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview",
+                    "id" => $localvideos->id]). '" role="button">Скачать</a>' : $url = '';
+
+            ($localvideos->vk !== null  && $localvideos->vkexists !== 404) ? $vk = '<a class="btn btn-lg btn-primary" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview",
+                    "id" => $localvideos->id, "mirror" => 1]). '" role="button">Зеркало 1</a>' : $vk = '';
+
+            ($localvideos->yadi !== null  && $localvideos->yadiexists !== 404) ? $yadi = '<a class="btn btn-lg btn-info" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview",
+                    "id" => $localvideos->id, "mirror" => 2]). '" role="button">Зеркало 2</a>' : $yadi = '';
+
+            ($localvideos->dropbox !== null  && $localvideos->dropboxexists !== 404) ? $dropbox = '<a class="btn btn-lg btn-warning" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview",
+                    "id" => $localvideos->id, "mirror" => 3]). '" role="button">Зеркало 3</a>' : $dropbox = '';
+
+            if($localvideos->check_id !== 1){
+                if($url == null and $vk == null and $yadi == null and $dropbox == null) {
+                    $local = $error;
+                } else $local = $url.' '.$vk.' '.$yadi.' '.$dropbox. '<br/><b>Размер:</b> '. $localvideos->file_size. 'мб. ';
+                }
             else{
                 if($user == $user_file && $localvideos->cloudexists !== 404){$status = $localvideos->checkVid->check_name;
-                    $local = '<a class="btn btn-lg btn-success" href="'. Yii::$app->urlManager->createUrl(["videos/viewpreview",
-                            "id" => $localvideos->id]). '" role="button">Скачать</a> '. $localvideos->file_size. 'мб. '.$status;
+                    $local = $url.' '.$vk.' '.$yadi.' '.$dropbox. '<br/><b>Размер:</b> '. $localvideos->file_size. 'мб. '.$status;
                 }
                 else{$local = 'Файл не найден.';}
             }
@@ -463,4 +499,29 @@ class Videos extends ActiveRecord
             return $ret;
         }
     }
+
+    public function getCheckWishList(){
+        $videoInWishList = Wishlist::find()->where(['videos_id' => $this->id])->andWhere(['user_id' => Yii::$app->user->identity->id])->one();
+
+        if($videoInWishList){
+            $result = '<a href="'. Yii::$app->urlManager->createUrl(["videos/delete-wish", "videos_id" => $this->id]) .'">
+                <img src="/frontend/web/img/heart_delete.png" alt="heart delete amv клип избранное" title="Убрать клип из Избранного"
+                 class="heart_add" /></a>';
+        } else{
+            $result = '<a href="'. Yii::$app->urlManager->createUrl(["videos/add-wish", "videos_id" => $this->id]) .'">
+                <img src="/frontend/web/img/heart_add.png" alt="heart add amv клип избранное" title="Добавить в Избранное клип"
+                 class="heart_add" /></a>';
+        }
+        return $result;
+    }
+
+    public function getReport(){
+        $report = Wishlist::find()->where(['videos_id' => $this->id])->andWhere(['user_id' => Yii::$app->user->identity->id])->one();
+
+        $result = '<a href="'. Yii::$app->urlManager->createUrl(["videos/report", "videos_id" => $this->id]) .'">
+            <img src="/frontend/web/img/stop_sign.png" alt="stop sign amv клип пожаловаться" title="Пожаловаться на клип"
+                 class="stop_sign" /></a>';
+        return $result;
+    }
+
 }

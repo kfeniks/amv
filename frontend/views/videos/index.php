@@ -37,7 +37,8 @@ use yii\helpers\Html;
                     <?php // Html::submitButton('Поиск', ['class' => 'btn btn-primary'])?>
 
                     <?php ActiveForm::end(); ?>
-                </div></div>
+                </div>
+                </div>
             </div></div>
         <div id="primary" class="vce-main-content">
 

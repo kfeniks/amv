@@ -147,12 +147,6 @@ AppAsset::register($this);
     </div>
 </div> <!-- tm-section-contact-form -->
 
-
-
-
-
-
-
 <script>
 
     function prepareMenuForDesktop() {

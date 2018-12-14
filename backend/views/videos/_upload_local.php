@@ -29,7 +29,26 @@ use yii\helpers\ArrayHelper;
         echo $model->FileExistsCloud;
      } ?>
     <?= $form->field($model, 'url')->textInput() ?>
-    <p>Внимание: короткая ссылка на облако https://rocld.com/ссылка</p>
+    <p>Внимание: короткая ссылка m5gca на облако Mail.ru Диск через Rocld.com</p>
+
+    <?php if($model->yadi !== null){
+        echo $model->YadiExistsCloud;
+    } ?>
+    <?= $form->field($model, 'yadi')->textInput() ?>
+    <p>Внимание: короткая ссылка G7cvo4l-3M5Bjw на облако Яндекс Диск через getfile.dokpub.com</p>
+
+    <?php if($model->vk !== null){
+        echo $model->VkExistsCloud;
+    } ?>
+    <?= $form->field($model, 'vk')->textInput() ?>
+    <p>Внимание: короткая ссылка 5131697_449239941 на документы Vk.com</p>
+
+
+    <?php if($model->dropbox !== null){
+        echo $model->DropboxExistsCloud;
+    } ?>
+    <?= $form->field($model, 'dropbox')->textInput() ?>
+    <p>Внимание: короткая ссылка c2w68pfwarxdlwa/0134.Wolf_Snow_-_Night-Patrol_full.keccgroup.ru.avi на облако Dropbox</p>
 
 
 

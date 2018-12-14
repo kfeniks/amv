@@ -32,7 +32,17 @@ $model->user->updateCounters(['karma' => 10]);
                 <p>Размер: <?= Html::encode($model->filesize) ?> мбайт</p>
                 <p>Дата добавления: <?= Yii::$app->formatter->asDate($model->created_at, 'd MMMM yyyy') ?></p>
                 <p>Скачиваний: <?= $model->load_count ?></p>
-
+                <br/><?php
+                $check_url = Yii::$app->request->referrer;
+                $check_url_link = $check_url{7}.$check_url{8}.$check_url{9};
+                if($check_url_link == 'amv'){ ?>
+                    <p>Вернуться <a href="<?= (!empty(Yii::$app->request->referrer) ? Yii::$app->request->referrer : null) ?>">назад</a> к клипу.</p>
+                <?php }
+                else{
+                    header('Location: Yii::$app->homeUrl;');
+                    exit;
+                }
+                ?>
             </div>
         </div>
     </div>

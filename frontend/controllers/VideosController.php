@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use frontend\models\Category;
+use frontend\models\Wishlist;
 use Yii;
 use yii\filters\AccessControl;
 use frontend\models\Videos;
@@ -120,11 +121,74 @@ class VideosController extends Controller
 
     }
 
-    public function actionViewlocal($id)
+    public function actionViewlocal($id, $mirror = null)
     {
+        Yii::$app->session->set('idLocal', $mirror);
         return $this->render('viewlocal', [
             'model' => $this->findModellocal($id)
         ]);
+    }
+
+    public function actionViewpreview($id, $mirror = null)
+    {
+        $video_name = Videos::find()->where(['id' => $this->findModelpreview($id)->videos_id])->one();
+        Yii::$app->session->set('idPreview', $mirror);
+        return $this->render('viewpreview', [
+            'model' => $this->findModelpreview($id),
+            'video_name' => $video_name
+        ]);
+    }
+
+    public function actionDownload_local($id)
+    {
+        return $this->render('download_local', [
+            'model' => $this->findModellocal($id)
+        ]);
+    }
+
+    public function actionDownload_preview($id)
+    {
+        return $this->render('download_preview', [
+            'model' => $this->findModelpreview($id)
+        ]);
+    }
+
+    public function actionViewdirect($id)
+    {
+        $video_name = Videos::find()->where(['id' => $this->findModeldirect($id)->videos_id])->one();
+        return $this->render('viewdirect', [
+            'model' => $this->findModeldirect($id),
+            'video_name' => $video_name
+        ]);
+    }
+
+    public function actionAddWish($videos_id)
+    {
+        $wishlist = Wishlist::find()->where(['videos_id' => $videos_id])->andWhere(['user_id' => Yii::$app->user->identity->id])->one();
+        if($wishlist) {
+            Yii::$app->session->setFlash('error', 'Ошибка. Клип уже в Избранном');
+            return $this->redirect(['videos/view', 'id' => $videos_id]);
+        } else $wishlist = new Wishlist();
+
+        $wishlist->videos_id = $videos_id;
+        $wishlist->user_id = Yii::$app->user->identity->id;
+        if($wishlist->save()) Yii::$app->session->setFlash('success', 'Клип добавлен в Избранное');
+        else Yii::$app->session->setFlash('error', 'Ошибка при добавлении клипа в Избранное');
+
+        return $this->redirect(['videos/view', 'id' => $videos_id]);
+    }
+
+    public function actionDeleteWish($videos_id)
+    {
+        $wishlist = Wishlist::find()->where(['videos_id' => $videos_id])->andWhere(['user_id' => Yii::$app->user->identity->id])->one();
+
+        if($wishlist) {
+            $wishlist->delete();
+            Yii::$app->session->setFlash('success', 'Клип успешно убран из Избранного');
+        }
+        else Yii::$app->session->setFlash('error', 'Ошибка при удадении клипа из Избранного');
+
+        return $this->redirect(['videos/view', 'id' => $videos_id]);
     }
 
     protected function findModellocal($id)
@@ -136,23 +200,6 @@ class VideosController extends Controller
         }
     }
 
-    public function actionDownload_local($id)
-    {
-        return $this->render('download_local', [
-            'model' => $this->findModellocal($id)
-        ]);
-    }
-
-
-    public function actionViewpreview($id)
-    {
-        $video_name = Videos::find()->where(['id' => $this->findModelpreview($id)->videos_id])->one();
-        return $this->render('viewpreview', [
-            'model' => $this->findModelpreview($id),
-            'video_name' => $video_name
-        ]);
-    }
-
     protected function findModelpreview($id)
     {
         if (($model = Preview::findOne($id)) !== null) {
@@ -160,23 +207,6 @@ class VideosController extends Controller
         } else {
             return $this->redirect(['site/error']);
         }
-    }
-
-    public function actionDownload_preview($id)
-    {
-        return $this->render('download_preview', [
-            'model' => $this->findModelpreview($id)
-        ]);
-    }
-
-
-    public function actionViewdirect($id)
-    {
-        $video_name = Videos::find()->where(['id' => $this->findModeldirect($id)->videos_id])->one();
-        return $this->render('viewdirect', [
-            'model' => $this->findModeldirect($id),
-            'video_name' => $video_name
-        ]);
     }
 
     protected function findModeldirect($id)

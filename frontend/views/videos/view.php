@@ -73,19 +73,21 @@ $this->registerMetaTag([
             <p><b>Скачиваний:</b> <?= Html::encode($model->alldownloads) ?></p>
             <p><b>Статус:</b> <?= Html::encode($model->siteOpinion()) ?></p>
             <?= HtmlPurifier::process($model->amvAwards()) ?>
-            <p><b>Версия в хорошем качестве:</b>
+            <p><b>Версия в хорошем качестве:</b></p>
+            <div class="linklocal">
                 <?= $model->LinkLocal?>
-            </p>
-            <p><b>Версия в плохом качестве (preview):</b>
+            </div>
+            <p><b>Версия в плохом качестве (preview):</b></p>
+            <div class="linkpreview">
                 <?= $model->LinkPreview?>
-            </p>
+            </div>
             <p><b>Версия на другом хостинге:</b>
                 <?= $model->LinkDirect?>
             </p>
-            <img src="/frontend/web/img/heart_add.png" alt="heart add amv клип избранное" title="Добавить в избранное клип"
-                 style="display: block; position: fixed; right:6px; top: 75%;" />
-            <img src="/frontend/web/img/stop_sign.png" alt="stop sign amv клип пожаловаться" title="Пожаловаться на клип"
-                 style="display: block; position: fixed; right:6px; top: 80%;" />
+            <?php if(!Yii::$app->user->isGuest){?>
+                <?= $model->CheckWishList ?>
+                <?= $model->Report ?>
+            <?php } ?>
                     </div>
     </div>
     </div>

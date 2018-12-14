@@ -299,7 +299,7 @@ class VideosController extends Controller
         $videosCategory = \frontend\models\Videos_category::find()->where(['videos_id' => $id])->all();
         $userDownloads = \frontend\models\Userdownloads::find()->where(['videos_id' => $id])->all();
         $rankUsers = \frontend\models\Rankusers::find()->where(['videos_id' => $id])->all();
-        if(!$preview == null){$preview->delete();}
+        if(!($preview == null)){$preview->delete();}
         if(!$direct == null){$direct->delete();}
         if(!$local == null){$local->delete();}
         if(!$videosCategory == null){\frontend\models\Videos_category::deleteAll(['videos_id' => $id]);}
